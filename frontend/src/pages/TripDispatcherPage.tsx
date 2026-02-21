@@ -72,7 +72,7 @@ export function TripDispatcherPage() {
     const selectedVehicle = MOCK_VEHICLES.find(v => v.id === vehicleId);
     const isOverweight = selectedVehicle && weight && parseFloat(weight) > selectedVehicle.capacityKg;
 
-    const canSchedule = role !== 'safety' && role !== 'finance';
+    const canSchedule = role !== 'safety_officer';
 
     return (
         <motion.div

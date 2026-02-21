@@ -22,7 +22,9 @@ export function LandingPage() {
     const [regName, setRegName] = useState('');
     const [regEmail, setRegEmail] = useState('');
     const [regPassword, setRegPassword] = useState('');
-    const [regRole, setRegRole] = useState('Dispatcher');
+    const [regRole, setRegRole] = useState('admin');
+    const [isRegistering, setIsRegistering] = useState(false);
+    const [registerError, setRegisterError] = useState('');
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,10 +45,47 @@ export function LandingPage() {
         }
     };
 
-    const handleRegister = (e: React.FormEvent) => {
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        localStorage.setItem('user', JSON.stringify({ email: regEmail, role: regRole, name: regName }));
-        navigate('/dashboard');
+        setRegisterError('');
+        setIsRegistering(true);
+
+        try {
+            const response = await fetch('http://localhost:3000/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    full_name: regName,
+                    email: regEmail,
+                    password: regPassword,
+                    role: regRole,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setRegisterError(data.message || 'Registration failed');
+                setIsRegistering(false);
+                return;
+            }
+
+            if (data.accessToken && data.user) {
+                localStorage.setItem('token', data.accessToken);
+                localStorage.setItem('user', JSON.stringify({
+                    email: data.user.email,
+                    role: data.user.role,
+                    name: data.user.full_name
+                }));
+                navigate('/dashboard');
+            } else {
+                setRegisterError('Invalid response from server');
+                setIsRegistering(false);
+            }
+        } catch (err: any) {
+            setRegisterError(err.message || 'An error occurred during registration');
+            setIsRegistering(false);
+        }
     };
 
     return (
@@ -154,14 +193,17 @@ export function LandingPage() {
                                                     <SelectValue placeholder="Select a role" />
                                                 </SelectTrigger>
                                                 <SelectContent className="rounded-lg shadow-md border-border bg-popover">
-                                                    <SelectItem value="Manager" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Manager</SelectItem>
-                                                    <SelectItem value="Dispatcher" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Dispatcher</SelectItem>
-                                                    <SelectItem value="Safety Officer" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Safety Officer</SelectItem>
-                                                    <SelectItem value="Financial Analyst" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Financial Analyst</SelectItem>
+                                                    <SelectItem value="admin" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Admin</SelectItem>
+                                                    <SelectItem value="manager" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Manager</SelectItem>
+                                                    <SelectItem value="dispatcher" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Dispatcher</SelectItem>
+                                                    <SelectItem value="safety_officer" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Safety Officer</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
-                                        <Button type="submit" className="w-full h-10 rounded-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring transition-all mt-6 shadow-sm hover:shadow-md active:scale-95">Create Account</Button>
+                                        {registerError && <p className="text-sm text-destructive font-medium px-1">{registerError}</p>}
+                                        <Button type="submit" disabled={isRegistering} className="w-full h-10 rounded-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring transition-all mt-6 shadow-sm hover:shadow-md active:scale-95">
+                                            {isRegistering ? 'Creating Account...' : 'Create Account'}
+                                        </Button>
                                     </form>
                                     <p className="text-center text-sm text-muted-foreground mt-6">
                                         Already have an account?{' '}

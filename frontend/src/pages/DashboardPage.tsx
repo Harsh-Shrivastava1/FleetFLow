@@ -42,13 +42,13 @@ export function DashboardPage() {
                     <p className="text-xs text-muted-foreground">Live operational status of your fleet.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    {role === 'manager' && (
+                    {(role === 'admin' || role === 'manager') && (
                         <Button className="rounded-lg h-10 px-4 text-sm font-medium focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 border border-border text-foreground hover:bg-muted transition-all duration-200 bg-background shadow-sm active:scale-95" onClick={() => navigate('/vehicles')}>
                             <Plus className="w-4 h-4 mr-2" />
                             New Vehicle
                         </Button>
                     )}
-                    {(role === 'manager' || role === 'dispatcher') && (
+                    {(role === 'admin' || role === 'manager' || role === 'dispatcher') && (
                         <Button className="rounded-lg h-10 px-4 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 transition-all duration-200 shadow-sm active:scale-95" onClick={() => navigate('/trips')}>
                             <Plus className="w-4 h-4 mr-2" />
                             New Trip
