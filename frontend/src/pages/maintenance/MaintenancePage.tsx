@@ -72,9 +72,9 @@ export function MaintenancePage() {
             {selectedLog && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
                     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setViewLogId(null)} />
-                    <div className="relative z-50 w-full max-w-md rounded-lg bg-white border border-gray-200 shadow-xl ">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-lg font-semibold text-gray-900">Service Log: {selectedLog.id}</h2>
+                    <div className="relative z-50 w-full max-w-md rounded-lg bg-card border border-border shadow-xl">
+                        <div className="p-6 border-b border-border">
+                            <h2 className="text-lg font-semibold text-foreground">Service Log: {selectedLog.id}</h2>
                         </div>
                         <div className="p-6 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
@@ -86,22 +86,22 @@ export function MaintenancePage() {
                                     ['Technician', selectedLog.technicianName],
                                 ].map(([label, value]) => (
                                     <div key={label}>
-                                        <p className="text-xs text-gray-400 uppercase tracking-wider">{label}</p>
-                                        <p className="text-sm font-medium text-gray-800 mt-1">{value}</p>
+                                        <p className="text-xs text-muted-foreground uppercase tracking-wider">{label}</p>
+                                        <p className="text-sm font-medium text-foreground mt-1">{value}</p>
                                     </div>
                                 ))}
                                 <div>
-                                    <p className="text-xs text-gray-400 uppercase tracking-wider">Status</p>
+                                    <p className="text-xs text-muted-foreground uppercase tracking-wider">Status</p>
                                     <div className="mt-1"><StatusBadge status={selectedLog.status} /></div>
                                 </div>
                             </div>
                             <div>
-                                <p className="text-xs text-gray-400 uppercase tracking-wider">Description</p>
-                                <p className="text-sm text-gray-700 mt-1">{selectedLog.issueDescription}</p>
+                                <p className="text-xs text-muted-foreground uppercase tracking-wider">Description</p>
+                                <p className="text-sm text-muted-foreground mt-1">{selectedLog.issueDescription}</p>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end">
-                            <button onClick={() => setViewLogId(null)} className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors">Close</button>
+                        <div className="p-6 border-t border-border flex justify-end">
+                            <button onClick={() => setViewLogId(null)} className="px-4 py-2 text-sm font-medium rounded-lg border border-border text-foreground hover:bg-muted transition-colors">Close</button>
                         </div>
                     </div>
                 </div>

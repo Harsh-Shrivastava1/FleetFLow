@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from './components/ThemeProvider';
 import { LandingPage } from './pages/LandingPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { VehicleRegistryPage } from './pages/VehicleRegistryPage';
@@ -27,29 +28,31 @@ function LazyPage({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Navigate to="/" replace />} />
-        <Route path="/register" element={<Navigate to="/" replace />} />
+    <ThemeProvider defaultTheme="system" storageKey="fleetflow-theme">
+      <Router>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Navigate to="/" replace />} />
+          <Route path="/register" element={<Navigate to="/" replace />} />
 
-        {/* Protected Routes Wrapper */}
-        <Route element={<ProtectedRoute />}>
-          <Route element={<AppLayout />}>
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/vehicles" element={<VehicleRegistryPage />} />
-            <Route path="/trips" element={<TripDispatcherPage />} />
-            <Route path="/maintenance" element={<LazyPage><MaintenancePage /></LazyPage>} />
-            <Route path="/expenses" element={<LazyPage><ExpensesPage /></LazyPage>} />
-            <Route path="/drivers" element={<LazyPage><DriversPage /></LazyPage>} />
-            <Route path="/analytics" element={<LazyPage><AnalyticsPage /></LazyPage>} />
+          {/* Protected Routes Wrapper */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AppLayout />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/vehicles" element={<VehicleRegistryPage />} />
+              <Route path="/trips" element={<TripDispatcherPage />} />
+              <Route path="/maintenance" element={<LazyPage><MaintenancePage /></LazyPage>} />
+              <Route path="/expenses" element={<LazyPage><ExpensesPage /></LazyPage>} />
+              <Route path="/drivers" element={<LazyPage><DriversPage /></LazyPage>} />
+              <Route path="/analytics" element={<LazyPage><AnalyticsPage /></LazyPage>} />
+            </Route>
           </Route>
-        </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

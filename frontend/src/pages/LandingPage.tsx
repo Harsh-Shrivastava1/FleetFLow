@@ -6,6 +6,7 @@ import { Card, CardContent } from '../components/ui/card';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export function LandingPage() {
     const navigate = useNavigate();
@@ -41,7 +42,11 @@ export function LandingPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 font-sans text-gray-900 relative flex items-center justify-center p-6 lg:p-12 overflow-hidden">
+        <div className="min-h-screen bg-background text-foreground relative flex items-center justify-center p-6 lg:p-12 overflow-hidden transition-colors duration-300">
+            {/* Top Right Controls */}
+            <div className="absolute top-6 right-6 lg:top-8 lg:right-12 z-50">
+                <ThemeToggle />
+            </div>
 
             <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
 
@@ -53,20 +58,20 @@ export function LandingPage() {
                     className="space-y-6"
                 >
                     <div className="flex items-center mb-8">
-                        <span className="font-bold text-xl md:text-2xl text-gray-900 tracking-tight">FleetFlow</span>
+                        <span className="font-bold text-xl md:text-2xl text-foreground tracking-tight">FleetFlow</span>
                     </div>
 
-                    <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-semibold tracking-tight text-gray-900 leading-[1.1]">
+                    <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-semibold tracking-tight text-foreground leading-[1.1]">
                         Manage Your Fleet. <br />Optimize Every Mile.
                     </h1>
-                    <p className="text-lg md:text-xl text-gray-500 max-w-lg leading-relaxed mt-4 mb-8">
+                    <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed mt-4 mb-8">
                         FleetFlow is a modular fleet and logistics management system designed to streamline operations, track performance, and improve decision-making.
                     </p>
                     <div className="flex flex-wrap gap-4 pt-4">
-                        <Button className="h-12 px-8 bg-gray-900 text-white hover:bg-black rounded-lg font-medium text-base shadow-sm hover:shadow-md transition-all duration-200 active:scale-95" onClick={() => setIsFlipped(false)}>
+                        <Button className="h-12 px-8 bg-foreground text-background hover:bg-foreground/90 rounded-lg font-medium text-base shadow-sm hover:shadow-md transition-all duration-200 active:scale-95" onClick={() => setIsFlipped(false)}>
                             Sign In
                         </Button>
-                        <Button variant="outline" className="h-12 px-8 border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50 bg-white rounded-lg font-medium text-base shadow-sm hover:shadow-md transition-all duration-200 active:scale-95" onClick={() => setIsFlipped(true)}>
+                        <Button variant="outline" className="h-12 px-8 border-border text-foreground hover:bg-muted bg-background rounded-lg font-medium text-base shadow-sm hover:shadow-md transition-all duration-200 active:scale-95" onClick={() => setIsFlipped(true)}>
                             Register Now
                         </Button>
                     </div>
@@ -85,39 +90,39 @@ export function LandingPage() {
 
                         {/* FRONT (LOGIN) */}
                         <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
-                            <Card className="w-full h-full border-transparent shadow-md hover:shadow-lg transition-shadow duration-300 rounded-[2.5rem] bg-white/95 backdrop-blur-sm overflow-hidden flex flex-col justify-center">
+                            <Card className="w-full h-full border-border shadow-md hover:shadow-lg transition-shadow duration-300 rounded-[2.5rem] bg-card/95 dark:bg-muted/20 backdrop-blur-sm overflow-hidden flex flex-col justify-center">
                                 <CardContent className="p-8">
                                     <div className="text-center mb-8">
-                                        <h2 className="text-2xl font-semibold tracking-tight text-gray-900">Welcome Back</h2>
-                                        <p className="text-sm text-gray-500 mt-2">Sign in to your fleet command center.</p>
+                                        <h2 className="text-2xl font-semibold tracking-tight text-foreground">Welcome Back</h2>
+                                        <p className="text-sm text-muted-foreground mt-2">Sign in to your fleet command center.</p>
                                     </div>
                                     <form onSubmit={handleLogin} className="space-y-5">
                                         <div className="space-y-1.5 ">
-                                            <Label className="text-sm font-medium text-gray-900">Role</Label>
+                                            <Label className="text-sm font-medium text-foreground">Role</Label>
                                             <Select value={loginRole} onValueChange={setLoginRole}>
-                                                <SelectTrigger className="w-full h-10 border-gray-200 hover:border-gray-300 transition-colors focus:ring-2 focus:ring-gray-900/80 focus:border-transparent rounded-lg bg-gray-50">
+                                                <SelectTrigger className="w-full h-10 border-border hover:border-border/80 transition-colors focus:ring-2 focus:ring-ring focus:border-transparent rounded-lg bg-background">
                                                     <SelectValue placeholder="Select a role" />
                                                 </SelectTrigger>
-                                                <SelectContent className="rounded-lg shadow-md border-gray-200">
-                                                    <SelectItem value="Manager" className="hover:bg-gray-100 transition-colors cursor-pointer">Manager</SelectItem>
-                                                    <SelectItem value="Dispatcher" className="hover:bg-gray-100 transition-colors cursor-pointer">Dispatcher</SelectItem>
+                                                <SelectContent className="rounded-lg shadow-md border-border bg-popover">
+                                                    <SelectItem value="Manager" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Manager</SelectItem>
+                                                    <SelectItem value="Dispatcher" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Dispatcher</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-1.5">
-                                            <Label className="text-sm font-medium text-gray-900">Email Address</Label>
-                                            <Input required type="email" placeholder="name@company.com" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
+                                            <Label className="text-sm font-medium text-foreground">Email Address</Label>
+                                            <Input required type="email" placeholder="name@company.com" className="h-10 border-border hover:border-border/80 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-transparent rounded-lg bg-background" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <Label className="text-sm font-medium text-gray-900">Password</Label>
-                                            <Input required type="password" placeholder="••••••••" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
+                                            <Label className="text-sm font-medium text-foreground">Password</Label>
+                                            <Input required type="password" placeholder="••••••••" className="h-10 border-border hover:border-border/80 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-transparent rounded-lg bg-background" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
                                         </div>
-                                        {loginError && <p className="text-sm text-red-600 font-medium px-1">{loginError}</p>}
-                                        <Button type="submit" className="w-full h-10 rounded-lg font-medium bg-gray-900 text-white hover:bg-black focus-visible:ring-2 focus-visible:ring-gray-900/80 transition-all mt-4 shadow-sm hover:shadow-md active:scale-95">Sign In</Button>
+                                        {loginError && <p className="text-sm text-destructive font-medium px-1">{loginError}</p>}
+                                        <Button type="submit" className="w-full h-10 rounded-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring transition-all mt-4 shadow-sm hover:shadow-md active:scale-95">Sign In</Button>
                                     </form>
-                                    <p className="text-center text-sm text-gray-500 mt-8">
+                                    <p className="text-center text-sm text-muted-foreground mt-8">
                                         Don't have an account?{' '}
-                                        <button type="button" onClick={() => setIsFlipped(true)} className="font-semibold text-gray-900 hover:text-black transition-colors hover:underline">
+                                        <button type="button" onClick={() => setIsFlipped(true)} className="font-semibold text-foreground hover:text-foreground/80 transition-colors hover:underline">
                                             Register here
                                         </button>
                                     </p>
@@ -127,42 +132,42 @@ export function LandingPage() {
 
                         {/* BACK (REGISTER) */}
                         <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                            <Card className="w-full h-full border-transparent shadow-md hover:shadow-lg transition-shadow duration-300 rounded-[2.5rem] bg-white/95 backdrop-blur-sm overflow-hidden flex flex-col justify-center">
+                            <Card className="w-full h-full border-border shadow-md hover:shadow-lg transition-shadow duration-300 rounded-[2.5rem] bg-card/95 dark:bg-muted/20 backdrop-blur-sm overflow-hidden flex flex-col justify-center">
                                 <CardContent className="p-8">
                                     <div className="text-center mb-6">
-                                        <h2 className="text-2xl font-semibold tracking-tight text-gray-900">Create Account</h2>
-                                        <p className="text-sm text-gray-500 mt-2">Set up your profile for unified fleet access.</p>
+                                        <h2 className="text-2xl font-semibold tracking-tight text-foreground">Create Account</h2>
+                                        <p className="text-sm text-muted-foreground mt-2">Set up your profile for unified fleet access.</p>
                                     </div>
                                     <form onSubmit={handleRegister} className="space-y-4">
                                         <div className="space-y-1.5">
-                                            <Label className="text-sm font-medium text-gray-900">Full Name</Label>
-                                            <Input required placeholder="John Doe" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={regName} onChange={e => setRegName(e.target.value)} />
+                                            <Label className="text-sm font-medium text-foreground">Full Name</Label>
+                                            <Input required placeholder="John Doe" className="h-10 border-border hover:border-border/80 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-transparent rounded-lg bg-background" value={regName} onChange={e => setRegName(e.target.value)} />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <Label className="text-sm font-medium text-gray-900">Email Address</Label>
-                                            <Input required type="email" placeholder="name@company.com" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={regEmail} onChange={e => setRegEmail(e.target.value)} />
+                                            <Label className="text-sm font-medium text-foreground">Email Address</Label>
+                                            <Input required type="email" placeholder="name@company.com" className="h-10 border-border hover:border-border/80 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-transparent rounded-lg bg-background" value={regEmail} onChange={e => setRegEmail(e.target.value)} />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <Label className="text-sm font-medium text-gray-900">Password</Label>
-                                            <Input required type="password" placeholder="••••••••" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={regPassword} onChange={e => setRegPassword(e.target.value)} />
+                                            <Label className="text-sm font-medium text-foreground">Password</Label>
+                                            <Input required type="password" placeholder="••••••••" className="h-10 border-border hover:border-border/80 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-transparent rounded-lg bg-background" value={regPassword} onChange={e => setRegPassword(e.target.value)} />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <Label className="text-sm font-medium text-gray-900">Requested Role</Label>
+                                            <Label className="text-sm font-medium text-foreground">Requested Role</Label>
                                             <Select value={regRole} onValueChange={setRegRole}>
-                                                <SelectTrigger className="w-full h-10 border-gray-200 hover:border-gray-300 transition-colors focus:ring-2 focus:ring-gray-900/80 focus:border-transparent rounded-lg bg-gray-50">
+                                                <SelectTrigger className="w-full h-10 border-border hover:border-border/80 transition-colors focus:ring-2 focus:ring-ring focus:border-transparent rounded-lg bg-background">
                                                     <SelectValue placeholder="Select a role" />
                                                 </SelectTrigger>
-                                                <SelectContent className="rounded-lg shadow-md border-gray-200">
-                                                    <SelectItem value="Manager" className="hover:bg-gray-100 transition-colors cursor-pointer">Manager</SelectItem>
-                                                    <SelectItem value="Dispatcher" className="hover:bg-gray-100 transition-colors cursor-pointer">Dispatcher</SelectItem>
+                                                <SelectContent className="rounded-lg shadow-md border-border bg-popover">
+                                                    <SelectItem value="Manager" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Manager</SelectItem>
+                                                    <SelectItem value="Dispatcher" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Dispatcher</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
-                                        <Button type="submit" className="w-full h-10 rounded-lg font-medium bg-gray-900 text-white hover:bg-black focus-visible:ring-2 focus-visible:ring-gray-900/80 transition-all mt-6 shadow-sm hover:shadow-md active:scale-95">Create Account</Button>
+                                        <Button type="submit" className="w-full h-10 rounded-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring transition-all mt-6 shadow-sm hover:shadow-md active:scale-95">Create Account</Button>
                                     </form>
-                                    <p className="text-center text-sm text-gray-500 mt-6">
+                                    <p className="text-center text-sm text-muted-foreground mt-6">
                                         Already have an account?{' '}
-                                        <button type="button" onClick={() => setIsFlipped(false)} className="font-semibold text-gray-900 hover:text-black transition-colors hover:underline">
+                                        <button type="button" onClick={() => setIsFlipped(false)} className="font-semibold text-foreground hover:text-foreground/80 transition-colors hover:underline">
                                             Sign in
                                         </button>
                                     </p>

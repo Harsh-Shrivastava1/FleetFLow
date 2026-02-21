@@ -43,10 +43,10 @@ export function DriverForm({ open, onClose }: DriverFormProps) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-            <div className="relative z-50 w-full max-w-md rounded-lg bg-white border border-gray-200 shadow-xl  overflow-hidden">
-                <div className="p-6 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-900">Add Driver</h2>
-                    <p className="text-sm text-gray-500 mt-1">Register a new fleet driver.</p>
+            <div className="relative z-50 w-full max-w-md rounded-lg bg-card border border-border shadow-xl overflow-hidden">
+                <div className="p-6 border-b border-border">
+                    <h2 className="text-lg font-semibold text-foreground">Add Driver</h2>
+                    <p className="text-sm text-muted-foreground mt-1">Register a new fleet driver.</p>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="p-6 space-y-4">
@@ -69,9 +69,9 @@ export function DriverForm({ open, onClose }: DriverFormProps) {
                             </Field>
                         </div>
                     </div>
-                    <div className="p-6 border-t border-gray-200 flex justify-end gap-2">
-                        <button type="button" onClick={() => { resetForm(); onClose(); }} className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors">Cancel</button>
-                        <button type="submit" disabled={!name || !licenseNumber} className="px-4 py-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Add Driver</button>
+                    <div className="p-6 border-t border-border flex justify-end gap-2">
+                        <button type="button" onClick={() => { resetForm(); onClose(); }} className="px-4 py-2 text-sm font-medium rounded-lg border border-border text-foreground hover:bg-muted transition-colors">Cancel</button>
+                        <button type="submit" disabled={!name || !licenseNumber} className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Add Driver</button>
                     </div>
                 </form>
             </div>

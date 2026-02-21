@@ -17,7 +17,7 @@ export function Dialog({
                 className="fixed inset-0"
                 onClick={() => onOpenChange(false)}
             />
-            <div className="relative z-50 bg-white rounded-lg shadow-lg w-full max-w-lg p-6 animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative z-50 bg-background rounded-lg border border-border shadow-lg w-full max-w-lg p-6 animate-in fade-in zoom-in-95 duration-200">
                 {children}
             </div>
         </div>

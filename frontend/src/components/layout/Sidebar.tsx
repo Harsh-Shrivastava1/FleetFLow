@@ -38,19 +38,19 @@ export function Sidebar() {
 
     return (
         <div
-            className={`bg-white border-r border-gray-200 h-full flex flex-col shrink-0 transition-all duration-300 ease-in-out z-20 relative ${isExpanded ? 'w-64' : 'w-16'
+            className={`bg-card border-r border-border h-full flex flex-col shrink-0 transition-all duration-300 ease-in-out z-20 relative ${isExpanded ? 'w-64' : 'w-16'
                 }`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className="h-16 flex items-center px-4 border-b border-gray-100 justify-between">
+            <div className="h-16 flex items-center px-4 border-b border-border justify-between">
                 <div className={`flex items-center gap-3 overflow-hidden ${isExpanded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}>
-                    <h2 className="text-xl font-semibold tracking-tight whitespace-nowrap">FleetFlow</h2>
+                    <h2 className="text-xl font-semibold tracking-tight whitespace-nowrap text-foreground">FleetFlow</h2>
                 </div>
 
                 <button
                     onClick={() => setIsCollapsed(!isCollapsed)}
-                    className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-black transition-all shrink-0 absolute right-3"
+                    className="p-1.5 hover:bg-muted rounded-lg text-muted-foreground hover:text-foreground transition-all shrink-0 absolute right-3"
                 >
                     {isExpanded && !isCollapsed ? <ChevronRight className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
@@ -66,12 +66,12 @@ export function Sidebar() {
                             to={item.path}
                             onClick={handleLinkClick}
                             className={`flex items-center px-2.5 py-2 text-sm font-medium rounded-lg transition-all ${isActive
-                                ? 'bg-gray-100 text-black font-semibold'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-black'
+                                ? 'bg-muted text-foreground font-semibold'
+                                : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
                                 }`}
                             title={isCollapsed && !isHovered ? item.name : undefined}
                         >
-                            <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-black' : 'text-gray-500'}`} />
+                            <Icon className={`w-5 h-5 shrink-0 transition-colors ${isActive ? 'text-foreground' : 'text-muted-foreground'}`} />
 
                             <span className={`ml-3 whitespace-nowrap transition-opacity duration-200 ${isExpanded ? 'opacity-100' : 'opacity-0 hidden w-0'
                                 }`}>

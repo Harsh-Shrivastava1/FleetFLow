@@ -44,7 +44,7 @@ interface DarkPageWrapperProps {
 
 export function DarkPageWrapper({ children }: DarkPageWrapperProps) {
     return (
-        <div className="fleet-dark min-h-full -m-6 md:-m-8 p-6 md:p-8">
+        <div className="min-h-full -m-6 md:-m-8 p-6 md:p-8">
             <FleetErrorBoundary>
                 {children}
             </FleetErrorBoundary>

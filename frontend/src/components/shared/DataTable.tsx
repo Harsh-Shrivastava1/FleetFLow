@@ -49,16 +49,16 @@ export function DataTable<T>({
     return (
         <div className="space-y-4">
             {/* Search + Filters */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4">
+            <div className="rounded-xl border border-border bg-card p-4">
                 <div className="flex flex-col sm:flex-row gap-3">
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <input
                             type="text"
                             placeholder={searchPlaceholder}
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            className="w-full h-9 pl-9 pr-4 rounded-lg border border-gray-300 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-gray-400 transition-all"
+                            className="w-full h-9 pl-9 pr-4 rounded-lg border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-all"
                         />
                     </div>
                     {filterSlot}
@@ -66,20 +66,20 @@ export function DataTable<T>({
             </div>
 
             {/* Table */}
-            <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+            <div className="rounded-xl border border-border bg-card overflow-hidden">
                 {filtered.length === 0 ? (
                     emptyState || (
                         <div className="flex flex-col items-center justify-center py-16 px-4">
-                            <p className="text-sm text-gray-400">No results found.</p>
+                            <p className="text-sm text-muted-foreground">No results found.</p>
                         </div>
                     )
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full caption-bottom text-sm">
                             <thead>
-                                <tr className="border-b border-gray-200">
+                                <tr className="border-b border-border bg-muted/50">
                                     {columns.map(col => (
-                                        <th key={col.key} className={`h-10 px-4 text-left align-middle font-medium text-gray-500 text-xs uppercase tracking-wider ${col.className || ''}`}>
+                                        <th key={col.key} className={`h-10 px-4 text-left align-middle font-medium text-muted-foreground text-xs uppercase tracking-wider ${col.className || ''}`}>
                                             {col.header}
                                         </th>
                                     ))}
@@ -92,16 +92,16 @@ export function DataTable<T>({
                                     return (
                                         <tr
                                             key={key}
-                                            className={`border-b border-gray-100 transition-colors hover:bg-gray-50 ${onRowClick ? 'cursor-pointer' : ''}`}
+                                            className={`border-b border-border transition-colors hover:bg-muted/50 ${onRowClick ? 'cursor-pointer' : ''}`}
                                             onClick={() => onRowClick?.(row)}
                                         >
                                             {columns.map(col => (
-                                                <td key={col.key} className={`p-4 align-middle ${col.className || ''}`}>
+                                                <td key={col.key} className={`p-4 align-middle text-foreground ${col.className || ''}`}>
                                                     {col.render(row)}
                                                 </td>
                                             ))}
                                             {isExpanded && renderExpanded && (
-                                                <td colSpan={columns.length} className="bg-gray-50 px-4 py-3">
+                                                <td colSpan={columns.length} className="bg-muted/50 px-4 py-3">
                                                     {renderExpanded(row)}
                                                 </td>
                                             )}

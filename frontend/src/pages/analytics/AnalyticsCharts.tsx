@@ -16,7 +16,7 @@ interface AnalyticsChartsProps {
 }
 
 export function AnalyticsCharts({ vehicles, monthlyFinancials, fuelEfficiency }: AnalyticsChartsProps) {
-    const tooltipStyle = { backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '8px', color: '#111827' };
+    const tooltipStyle = { backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px', color: 'hsl(var(--foreground))' };
 
     const top5Costliest = useMemo(() => {
         return [...vehicles]
@@ -44,9 +44,9 @@ export function AnalyticsCharts({ vehicles, monthlyFinancials, fuelEfficiency }:
     }, [monthlyFinancials]);
 
     const chartCard = (title: string, children: React.ReactNode) => (
-        <div className="rounded-lg border border-gray-200 bg-white overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200">
-                <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+        <div className="rounded-lg border border-border bg-card overflow-hidden">
+            <div className="px-6 py-4 border-b border-border">
+                <h3 className="text-sm font-semibold text-foreground">{title}</h3>
             </div>
             <div className="p-6">
                 <div className="h-64">{children}</div>

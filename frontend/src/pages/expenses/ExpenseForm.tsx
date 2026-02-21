@@ -60,11 +60,11 @@ export function ExpenseForm({ open, onClose }: ExpenseFormProps) {
     return (
         <div className="fixed inset-0 z-50 flex items-end justify-end">
             <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-            <div className="relative z-50 h-full w-full max-w-md bg-white border-l border-gray-200 shadow-xl" style={{ animation: 'fleet-slide-in-right 0.3s ease-out' }}>
+            <div className="relative z-50 h-full w-full max-w-md bg-card border-l border-border shadow-xl" style={{ animation: 'fleet-slide-in-right 0.3s ease-out' }}>
                 <div className="flex flex-col h-full">
-                    <div className="p-6 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-900">Add Expense</h2>
-                        <p className="text-sm text-gray-500 mt-1">Record fuel and miscellaneous costs for a completed trip.</p>
+                    <div className="p-6 border-b border-border">
+                        <h2 className="text-lg font-semibold text-foreground">Add Expense</h2>
+                        <p className="text-sm text-muted-foreground mt-1">Record fuel and miscellaneous costs for a completed trip.</p>
                     </div>
                     <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
                         <div className="flex-1 overflow-y-auto p-6 space-y-5">
@@ -80,7 +80,7 @@ export function ExpenseForm({ open, onClose }: ExpenseFormProps) {
                                 />
                             </Field>
 
-                            <div className="h-px bg-gray-100" />
+                            <div className="h-px bg-border" />
 
                             <div className="grid grid-cols-2 gap-4">
                                 <Field>
@@ -108,26 +108,26 @@ export function ExpenseForm({ open, onClose }: ExpenseFormProps) {
                                 <textarea value={notes} onChange={e => setNotes(e.target.value)} className="flex w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[80px] resize-none" placeholder="Toll charges, parking, etc..." />
                             </Field>
 
-                            <div className="h-px bg-gray-100" />
+                            <div className="h-px bg-border" />
 
                             {/* Auto Calculations */}
-                            <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 space-y-3">
-                                <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Auto Calculations</p>
+                            <div className="rounded-lg bg-muted/50 border border-border p-4 space-y-3">
+                                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Auto Calculations</p>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <p className="text-xs text-gray-400">Total Cost</p>
-                                        <p className="text-lg font-bold text-gray-900">{formatCurrency(previewTotal)}</p>
+                                        <p className="text-xs text-muted-foreground">Total Cost</p>
+                                        <p className="text-lg font-bold text-foreground">{formatCurrency(previewTotal)}</p>
                                     </div>
                                     <div>
-                                        <p className="text-xs text-gray-400">Cost per KM</p>
-                                        <p className="text-lg font-bold text-gray-900">₹{previewCostPerKm.toFixed(2)}</p>
+                                        <p className="text-xs text-muted-foreground">Cost per KM</p>
+                                        <p className="text-lg font-bold text-foreground">₹{previewCostPerKm.toFixed(2)}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-2">
-                            <button type="button" onClick={() => { resetForm(); onClose(); }} className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors">Cancel</button>
-                            <button type="submit" disabled={!tripId} className="px-4 py-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Save Expense</button>
+                        <div className="p-6 border-t border-border flex justify-end gap-2">
+                            <button type="button" onClick={() => { resetForm(); onClose(); }} className="px-4 py-2 text-sm font-medium rounded-lg border border-border text-foreground hover:bg-muted transition-colors">Cancel</button>
+                            <button type="submit" disabled={!tripId} className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">Save Expense</button>
                         </div>
                     </form>
                 </div>

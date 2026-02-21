@@ -5,23 +5,23 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function Badge({ className = "", variant = "default", ...props }: BadgeProps) {
-    let variantStyles = "bg-gray-900 text-gray-50 hover:bg-gray-900/80";
+    let variantStyles = "bg-primary text-primary-foreground hover:bg-primary/80 border-transparent";
 
     if (variant === "secondary") {
-        variantStyles = "bg-gray-100 text-gray-900 hover:bg-gray-100/80";
+        variantStyles = "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-transparent";
     } else if (variant === "outline") {
-        variantStyles = "text-gray-950 border border-gray-200";
+        variantStyles = "text-foreground border border-border";
     } else if (variant === "success") {
-        variantStyles = "bg-green-100 text-green-800 border-green-200";
+        variantStyles = "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
     } else if (variant === "warning") {
-        variantStyles = "bg-yellow-100 text-yellow-800 border-yellow-200";
+        variantStyles = "bg-amber-500/10 text-amber-500 border-amber-500/20";
     } else if (variant === "destructive") {
-        variantStyles = "bg-red-100 text-red-800 border-red-200";
+        variantStyles = "bg-destructive text-destructive-foreground hover:bg-destructive/90 border-transparent";
     }
 
     return (
         <div
-            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-gray-950 focus:ring-offset-2 ${variantStyles} ${className}`}
+            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${variantStyles} ${className}`}
             {...props}
         />
     )

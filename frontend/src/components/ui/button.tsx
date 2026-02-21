@@ -2,22 +2,32 @@ import * as React from "react"
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "outline" | "ghost"
+  size?: "default" | "sm" | "lg" | "icon"
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className = "", variant = "default", ...props }, ref) => {
+  ({ className = "", variant = "default", size = "default", ...props }, ref) => {
 
-    let variantStyles = "bg-black text-white hover:bg-black/90";
+    let variantStyles = "bg-primary text-primary-foreground hover:bg-primary/90";
     if (variant === "outline") {
-      variantStyles = "border border-gray-200 bg-white hover:bg-gray-100 hover:text-gray-900";
+      variantStyles = "border border-border bg-background hover:bg-muted hover:text-foreground";
     } else if (variant === "ghost") {
-      variantStyles = "hover:bg-gray-100 hover:text-gray-900";
+      variantStyles = "hover:bg-muted hover:text-foreground";
+    }
+
+    let sizeStyles = "h-9 px-4 py-2";
+    if (size === "sm") {
+      sizeStyles = "h-8 rounded-md px-3 text-xs";
+    } else if (size === "lg") {
+      sizeStyles = "h-10 rounded-md px-8";
+    } else if (size === "icon") {
+      sizeStyles = "h-9 w-9";
     }
 
     return (
       <button
         ref={ref}
-        className={`inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 ${variantStyles} ${className}`}
+        className={`inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 ${sizeStyles} ${variantStyles} ${className}`}
         {...props}
       />
     )

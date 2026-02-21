@@ -43,32 +43,32 @@ export function MaintenanceTable({ onViewLog, onCloseLog, onCreateLog, statusFil
             }
             emptyState={
                 <div className="flex flex-col items-center justify-center py-16 px-4">
-                    <p className="text-sm text-gray-400 mb-2">No service logs found.</p>
-                    <button onClick={onCreateLog} className="px-4 py-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800 transition-colors">
+                    <p className="text-sm text-muted-foreground mb-2">No service logs found.</p>
+                    <button onClick={onCreateLog} className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
                         Create Service Log
                     </button>
                 </div>
             }
             columns={[
-                { key: 'id', header: 'Log ID', render: r => <span className="font-mono text-xs text-gray-500">{r.id}</span> },
+                { key: 'id', header: 'Log ID', render: r => <span className="font-mono text-xs text-muted-foreground">{r.id}</span> },
                 { key: 'vehicle', header: 'Vehicle', render: r => <button className="text-emerald-600 hover:text-emerald-600 font-medium hover:underline transition-colors" onClick={e => { e.stopPropagation(); onViewLog(r.id); }}>{r.vehiclePlate}</button> },
                 { key: 'type', header: 'Service Type', render: r => <span>{r.serviceType}</span> },
-                { key: 'date', header: 'Date', render: r => <span className="text-gray-500">{new Date(r.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span> },
+                { key: 'date', header: 'Date', render: r => <span className="text-muted-foreground">{new Date(r.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span> },
                 { key: 'cost', header: 'Cost', render: r => <span className="font-medium">{formatCurrency(r.cost)}</span> },
                 { key: 'status', header: 'Status', render: r => <StatusBadge status={r.status} /> },
-                { key: 'tech', header: 'Technician', render: r => <span className="text-gray-500">{r.technicianName}</span> },
+                { key: 'tech', header: 'Technician', render: r => <span className="text-muted-foreground">{r.technicianName}</span> },
                 {
                     key: 'actions', header: 'Actions', render: r => (
                         <div className="flex items-center gap-1">
-                            <button onClick={e => { e.stopPropagation(); onViewLog(r.id); }} className="h-8 w-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors" title="View Details">
+                            <button onClick={e => { e.stopPropagation(); onViewLog(r.id); }} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors" title="View Details">
                                 <Eye className="h-4 w-4" />
                             </button>
                             {r.status !== 'Completed' && (
                                 <>
-                                    <button onClick={e => { e.stopPropagation(); updateServiceLogStatus(r.id, 'In Progress'); }} className="h-8 w-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors" title="Mark In Progress">
+                                    <button onClick={e => { e.stopPropagation(); updateServiceLogStatus(r.id, 'In Progress'); }} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors" title="Mark In Progress">
                                         <Pencil className="h-4 w-4" />
                                     </button>
-                                    <button onClick={e => { e.stopPropagation(); onCloseLog(r.id); }} className="h-8 w-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-emerald-50 hover:text-emerald-600 transition-colors" title="Complete">
+                                    <button onClick={e => { e.stopPropagation(); onCloseLog(r.id); }} className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-emerald-500/10 hover:text-emerald-500 transition-colors" title="Complete">
                                         <CheckCircle2 className="h-4 w-4" />
                                     </button>
                                 </>

@@ -38,8 +38,8 @@ export function ExpensesTable({ vehicleFilter, onVehicleFilterChange, onCreateEx
                         ['Notes', r.notes || '—'],
                     ].map(([label, value]) => (
                         <div key={label}>
-                            <p className="text-xs text-gray-400 uppercase tracking-wider">{label}</p>
-                            <p className="text-sm font-medium text-gray-800 mt-1">{value}</p>
+                            <p className="text-xs text-muted-foreground uppercase tracking-wider">{label}</p>
+                            <p className="text-sm font-medium text-foreground mt-1">{value}</p>
                         </div>
                     ))}
                 </div>
@@ -56,18 +56,18 @@ export function ExpensesTable({ vehicleFilter, onVehicleFilterChange, onCreateEx
             }
             emptyState={
                 <div className="flex flex-col items-center justify-center py-16 px-4">
-                    <div className="h-14 w-14 rounded-lg bg-gray-100 flex items-center justify-center mb-4"><DollarSign className="h-7 w-7 text-gray-400" /></div>
-                    <p className="text-sm text-gray-400 mb-2">No expenses recorded.</p>
-                    <button onClick={onCreateExpense} className="px-4 py-2 text-sm font-medium rounded-lg bg-black text-white hover:bg-gray-800 transition-colors">Add Expense</button>
+                    <div className="h-14 w-14 rounded-lg bg-muted flex items-center justify-center mb-4"><DollarSign className="h-7 w-7 text-muted-foreground" /></div>
+                    <p className="text-sm text-muted-foreground mb-2">No expenses recorded.</p>
+                    <button onClick={onCreateExpense} className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">Add Expense</button>
                 </div>
             }
             columns={[
-                { key: 'expand', header: '', className: 'w-8', render: r => expandedRow === r.id ? <ChevronDown className="h-4 w-4 text-gray-400" /> : <ChevronRight className="h-4 w-4 text-gray-400" /> },
-                { key: 'trip', header: 'Trip ID', render: r => <span className="font-mono text-xs text-gray-500">{r.tripId}</span> },
+                { key: 'expand', header: '', className: 'w-8', render: r => expandedRow === r.id ? <ChevronDown className="h-4 w-4 text-muted-foreground" /> : <ChevronRight className="h-4 w-4 text-muted-foreground" /> },
+                { key: 'trip', header: 'Trip ID', render: r => <span className="font-mono text-xs text-muted-foreground">{r.tripId}</span> },
                 { key: 'vehicle', header: 'Vehicle', render: r => <span className="font-medium text-emerald-600">{r.vehiclePlate}</span> },
                 { key: 'driver', header: 'Driver', render: r => <span>{r.driverName}</span> },
-                { key: 'distance', header: 'Distance', render: r => <span className="text-gray-500">{r.distance} km</span> },
-                { key: 'fuel', header: 'Fuel (L)', render: r => <span className="text-gray-500">{r.fuelLiters} L</span> },
+                { key: 'distance', header: 'Distance', render: r => <span className="text-muted-foreground">{r.distance} km</span> },
+                { key: 'fuel', header: 'Fuel (L)', render: r => <span className="text-muted-foreground">{r.fuelLiters} L</span> },
                 { key: 'fuelCost', header: 'Fuel Cost', render: r => <span>{formatCurrency(r.fuelCost)}</span> },
                 { key: 'misc', header: 'Misc', render: r => <span>{formatCurrency(r.miscExpense)}</span> },
                 { key: 'total', header: 'Total Cost', render: r => <span className="font-semibold">{formatCurrency(r.totalCost)}</span> },

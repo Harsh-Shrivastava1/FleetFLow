@@ -4,7 +4,7 @@ import { Navbar } from './Navbar';
 
 export function AppLayout() {
     return (
-        <div className="flex h-screen bg-[#f9fafb] text-gray-900 font-sans overflow-hidden">
+        <div className="flex h-screen bg-background text-foreground font-sans overflow-hidden transition-colors duration-300">
             <Sidebar />
             <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
                 <Navbar />

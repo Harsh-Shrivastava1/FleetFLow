@@ -38,12 +38,12 @@ export function DatePicker({
                     type="button"
                     data-required={required || undefined}
                     className={cn(
-                        "flex h-10 w-full items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm transition-colors hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-black/10",
-                        !dateValue && "text-gray-400",
+                        "flex h-10 w-full items-center gap-2 rounded-lg border border-input bg-background px-3 py-2 text-sm transition-colors hover:border-border focus:outline-none focus:ring-2 focus:ring-ring",
+                        !dateValue && "text-muted-foreground",
                         className
                     )}
                 >
-                    <CalendarIcon className="h-4 w-4 shrink-0 text-gray-400" />
+                    <CalendarIcon className="h-4 w-4 shrink-0 text-muted-foreground" />
                     <span className="truncate">
                         {dateValue ? format(dateValue, "dd MMM yyyy") : placeholder}
                     </span>
@@ -51,7 +51,7 @@ export function DatePicker({
             </Popover.Trigger>
             <Popover.Portal>
                 <Popover.Content
-                    className="z-50 rounded-lg border border-gray-200 bg-white shadow-lg animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2"
+                    className="z-50 rounded-lg border border-border bg-popover text-popover-foreground shadow-lg animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2"
                     sideOffset={4}
                     align="start"
                 >

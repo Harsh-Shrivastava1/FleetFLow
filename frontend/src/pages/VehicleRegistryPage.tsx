@@ -82,43 +82,43 @@ export function VehicleRegistryPage() {
         >
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
                 <div className="space-y-1">
-                    <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Vehicle Registry</h1>
-                    <p className="text-sm text-gray-500">Manage your active fleet and asset details.</p>
+                    <h1 className="text-2xl font-semibold tracking-tight text-foreground">Vehicle Registry</h1>
+                    <p className="text-sm text-muted-foreground">Manage your active fleet and asset details.</p>
                 </div>
                 <div className="flex gap-3">
-                    <Button onClick={openModalNew} className="rounded-lg h-8 px-3 py-1.5 text-sm font-medium bg-black text-white hover:bg-gray-900 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all duration-200 shadow-sm">+ New Vehicle</Button>
+                    <Button onClick={openModalNew} className="rounded-lg h-8 px-3 py-1.5 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 transition-all duration-200 shadow-sm">+ New Vehicle</Button>
                 </div>
             </div>
 
-            <div className="rounded-xl border border-gray-200 overflow-hidden bg-white mb-4">
+            <div className="rounded-xl border border-border overflow-hidden bg-card mb-4">
                 <div className="overflow-x-auto">
                     <Table>
-                        <TableHeader className="bg-gray-50/50">
-                            <TableRow className="border-b border-gray-200 hover:bg-transparent">
-                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">No</TableHead>
-                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Plate Num</TableHead>
-                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Model</TableHead>
-                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Type</TableHead>
-                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Capacity</TableHead>
-                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Odometer</TableHead>
-                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Status</TableHead>
-                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Actions</TableHead>
+                        <TableHeader className="bg-muted/50">
+                            <TableRow className="border-b border-border hover:bg-transparent">
+                                <TableHead className="text-xs uppercase tracking-wide text-muted-foreground py-3 px-6 h-auto">No</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-muted-foreground py-3 px-6 h-auto">Plate Num</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-muted-foreground py-3 px-6 h-auto">Model</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-muted-foreground py-3 px-6 h-auto">Type</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-muted-foreground py-3 px-6 h-auto">Capacity</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-muted-foreground py-3 px-6 h-auto">Odometer</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-muted-foreground py-3 px-6 h-auto">Status</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-muted-foreground py-3 px-6 h-auto">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {vehicles.map((v) => (
-                                <TableRow key={v.id} className="border-b border-gray-100 hover:bg-gray-50 transition duration-150 group">
-                                    <TableCell className="text-gray-500 px-6 py-3">{v.id}</TableCell>
-                                    <TableCell className="font-medium text-gray-900 px-6 py-3">{v.plate}</TableCell>
-                                    <TableCell className="text-gray-600 px-6 py-3">{v.model}</TableCell>
-                                    <TableCell className="text-gray-600 px-6 py-3">{v.type}</TableCell>
-                                    <TableCell className="text-gray-600 px-6 py-3">{v.capacity}</TableCell>
-                                    <TableCell className="text-gray-600 px-6 py-3">{v.odometer}</TableCell>
+                                <TableRow key={v.id} className="border-b border-border hover:bg-muted/50 transition duration-150 group">
+                                    <TableCell className="text-muted-foreground px-6 py-3">{v.id}</TableCell>
+                                    <TableCell className="font-medium text-foreground px-6 py-3">{v.plate}</TableCell>
+                                    <TableCell className="text-muted-foreground px-6 py-3">{v.model}</TableCell>
+                                    <TableCell className="text-muted-foreground px-6 py-3">{v.type}</TableCell>
+                                    <TableCell className="text-muted-foreground px-6 py-3">{v.capacity}</TableCell>
+                                    <TableCell className="text-muted-foreground px-6 py-3">{v.odometer}</TableCell>
                                     <TableCell className="px-6 py-3">
                                         <span
                                             className={`rounded-full px-2 py-0.5 text-xs font-medium ${v.status === "On Trip"
-                                                ? "bg-green-100 text-green-700"
-                                                : "bg-gray-100 text-gray-600"
+                                                ? "bg-emerald-500/10 text-emerald-500"
+                                                : "bg-muted text-muted-foreground"
                                                 }`}
                                         >
                                             {v.status}
@@ -127,13 +127,13 @@ export function VehicleRegistryPage() {
                                     <TableCell className="px-6 py-3">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
-                                                <button className="p-2 hover:bg-gray-100 rounded-md transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-black">
-                                                    <MoreHorizontal className="w-4 h-4 text-gray-600" />
+                                                <button className="p-2 hover:bg-muted rounded-md transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-ring">
+                                                    <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
                                                 </button>
                                             </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end" className="w-32 rounded-lg shadow-md border border-gray-200 bg-white">
-                                                <DropdownMenuItem onClick={() => handleEditVehicle(v)} className="hover:bg-gray-100 cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 focus:bg-gray-100 m-1">Edit</DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => handleDeleteVehicle(v.id)} className="text-red-600 hover:bg-red-50 hover:text-red-700 focus:bg-red-50 focus:text-red-700 cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 m-1">Delete</DropdownMenuItem>
+                                            <DropdownMenuContent align="end" className="w-32 rounded-lg shadow-md border border-border bg-popover text-popover-foreground">
+                                                <DropdownMenuItem onClick={() => handleEditVehicle(v)} className="hover:bg-muted cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 focus:bg-muted m-1">Edit</DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => handleDeleteVehicle(v.id)} className="text-destructive hover:bg-destructive/10 hover:text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 m-1">Delete</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
@@ -141,7 +141,7 @@ export function VehicleRegistryPage() {
                             ))}
                             {vehicles.length === 0 && (
                                 <TableRow>
-                                    <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                                         No vehicles registered yet.
                                     </TableCell>
                                 </TableRow>
@@ -159,43 +159,43 @@ export function VehicleRegistryPage() {
                     <DialogContent className="space-y-4">
                         <div className="space-y-2">
                             <Label className="text-sm font-medium">License Plate</Label>
-                            <Input required placeholder="Ex: ABC-1234" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={plate} onChange={e => setPlate(e.target.value)} />
+                            <Input required placeholder="Ex: ABC-1234" className="h-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-lg border-border" value={plate} onChange={e => setPlate(e.target.value)} />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label className="text-sm font-medium">Type</Label>
                                 <Select value={type} onValueChange={setType}>
-                                    <SelectTrigger className="w-full focus:ring-2 focus:ring-black focus:ring-offset-1 rounded-lg">
+                                    <SelectTrigger className="w-full focus:ring-2 focus:ring-ring focus:ring-offset-1 rounded-lg">
                                         <SelectValue placeholder="Select vehicle type" />
                                     </SelectTrigger>
-                                    <SelectContent className="rounded-lg shadow-md border-gray-200">
-                                        <SelectItem value="Truck" className="hover:bg-gray-100 transition-colors">Truck</SelectItem>
-                                        <SelectItem value="Trailer Truck" className="hover:bg-gray-100 transition-colors">Trailer Truck</SelectItem>
-                                        <SelectItem value="Van" className="hover:bg-gray-100 transition-colors">Van</SelectItem>
+                                    <SelectContent className="rounded-lg shadow-md border-border bg-popover text-popover-foreground">
+                                        <SelectItem value="Truck" className="hover:bg-muted transition-colors">Truck</SelectItem>
+                                        <SelectItem value="Trailer Truck" className="hover:bg-muted transition-colors">Trailer Truck</SelectItem>
+                                        <SelectItem value="Van" className="hover:bg-muted transition-colors">Van</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div className="space-y-2">
                                 <Label className="text-sm font-medium">Model</Label>
-                                <Input required placeholder="Ex: Mini" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={model} onChange={e => setModel(e.target.value)} />
+                                <Input required placeholder="Ex: Mini" className="h-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-lg border-border" value={model} onChange={e => setModel(e.target.value)} />
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label className="text-sm font-medium">Max Payload (tons)</Label>
-                                <Input type="number" required placeholder="5" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={capacity} onChange={e => setCapacity(e.target.value)} />
+                                <Input type="number" required placeholder="5" className="h-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-lg border-border" value={capacity} onChange={e => setCapacity(e.target.value)} />
                             </div>
                             <div className="space-y-2">
                                 <Label className="text-sm font-medium">Initial Odometer</Label>
-                                <Input type="number" required placeholder="0" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={odometer} onChange={e => setOdometer(e.target.value)} />
+                                <Input type="number" required placeholder="0" className="h-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-lg border-border" value={odometer} onChange={e => setOdometer(e.target.value)} />
                             </div>
                         </div>
                     </DialogContent>
                     <DialogFooter>
-                        <Button type="button" variant="outline" className="rounded-lg h-10 font-medium focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 border-gray-200 hover:bg-gray-50" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-                        <Button type="submit" className="rounded-lg h-10 font-medium bg-black text-white hover:bg-gray-900 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all">Save Vehicle</Button>
+                        <Button type="button" variant="outline" className="rounded-lg h-10 font-medium focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 border-border hover:bg-muted" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+                        <Button type="submit" className="rounded-lg h-10 font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 transition-all">Save Vehicle</Button>
                     </DialogFooter>
                 </form>
             </Dialog>

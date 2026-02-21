@@ -53,9 +53,9 @@ export function DriversPage() {
 
             {/* Expired License Alert */}
             {expiredLicenses.length > 0 && (
-                <div className=" rounded-lg bg-red-50 border border-red-200 p-4 flex items-center gap-3">
-                    <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
-                    <p className="text-sm text-red-600">
+                <div className=" rounded-lg bg-destructive/10 border border-destructive/20 p-4 flex items-center gap-3">
+                    <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0" />
+                    <p className="text-sm text-destructive">
                         <span className="font-semibold">{expiredLicenses.length} driver(s)</span> have expired licenses:{' '}
                         {expiredLicenses.map(d => d.name).join(', ')}
                     </p>
@@ -68,13 +68,13 @@ export function DriversPage() {
                     <MetricCard title="Active Drivers" value={activeDrivers.length} icon={Users} trend={{ value: 2, isPositive: true }} />
                 </div>
                 <div className="">
-                    <MetricCard title="Avg Safety Score" value={avgSafetyScore} icon={Shield} trend={{ value: 3, isPositive: true }} iconColor="text-blue-600 bg-blue-50" />
+                    <MetricCard title="Avg Safety Score" value={avgSafetyScore} icon={Shield} trend={{ value: 3, isPositive: true }} iconColor="text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-950/30" />
                 </div>
                 <div className="">
-                    <MetricCard title="Avg Completion Rate" value={`${avgCompletionRate}%`} icon={Award} trend={{ value: 1.5, isPositive: true }} iconColor="text-purple-400 bg-purple-500/10" />
+                    <MetricCard title="Avg Completion Rate" value={`${avgCompletionRate}%`} icon={Award} trend={{ value: 1.5, isPositive: true }} iconColor="text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-950/30" />
                 </div>
                 <div className="">
-                    <MetricCard title="Expired Licenses" value={expiredLicenses.length} icon={AlertCircle} trend={{ value: expiredLicenses.length, isPositive: false }} iconColor="text-red-600 bg-red-50" />
+                    <MetricCard title="Expired Licenses" value={expiredLicenses.length} icon={AlertCircle} trend={{ value: expiredLicenses.length, isPositive: false }} iconColor="text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-950/30" />
                 </div>
             </div>
 
