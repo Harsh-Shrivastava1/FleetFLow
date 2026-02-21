@@ -1,19 +1,27 @@
 import { useState } from 'react';
-import { Card, CardContent } from '../components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
 import { Button } from '../components/ui/button';
-import { Badge } from '../components/ui/badge';
 import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../components/ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../components/ui/dropdown-menu';
+import { motion } from 'framer-motion';
+import { MoreHorizontal } from 'lucide-react';
 
 const INITIAL_VEHICLES = [
-    { id: 1, plate: "MH00AB1234", model: "Mini", type: "Truck", capacity: "5 ton", odometer: 70000, status: "Idle" },
-    { id: 2, plate: "DL01YZ5678", model: "Maxi", type: "Trailer", capacity: "15 ton", odometer: 120500, status: "On Trip" },
+    { id: 1, plate: "MH00AB1234", model: "Mini", type: "Truck", capacity: "5 ton", odometer: "70,000 km", status: "Idle" },
+    { id: 2, plate: "DL01YZ5678", model: "Maxi", type: "Trailer", capacity: "15 ton", odometer: "120,500 km", status: "On Trip" },
+    { id: 3, plate: "GJ05RT9087", model: "Mini", type: "Van", capacity: "2 ton", odometer: "45,000 km", status: "Idle" },
+    { id: 4, plate: "KA09PL4321", model: "Ultra", type: "Truck", capacity: "10 ton", odometer: "98,000 km", status: "On Trip" },
+    { id: 5, plate: "TN11ZX6789", model: "Lite", type: "Van", capacity: "3 ton", odometer: "60,200 km", status: "Idle" },
+    { id: 6, plate: "RJ14MN3456", model: "Heavy", type: "Trailer", capacity: "20 ton", odometer: "150,000 km", status: "On Trip" }
 ];
 
 export function VehicleRegistryPage() {
     const [vehicles, setVehicles] = useState(INITIAL_VEHICLES);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingId, setEditingId] = useState<number | null>(null);
 
     // Form State
     const [plate, setPlate] = useState('');
@@ -22,67 +30,112 @@ export function VehicleRegistryPage() {
     const [capacity, setCapacity] = useState('');
     const [odometer, setOdometer] = useState('');
 
+    const openModalNew = () => {
+        setEditingId(null);
+        setPlate(''); setModel(''); setType('Truck'); setCapacity(''); setOdometer('');
+        setIsModalOpen(true);
+    };
+
+    const handleEditVehicle = (vehicle: any) => {
+        setEditingId(vehicle.id);
+        setPlate(vehicle.plate);
+        setModel(vehicle.model);
+        setType(vehicle.type);
+        setCapacity(vehicle.capacity.replace(' ton', ''));
+        setOdometer(vehicle.odometer.replace(' km', '').replace(/,/g, ''));
+        setIsModalOpen(true);
+    };
+
+    const handleDeleteVehicle = (id: number) => {
+        setVehicles(vehicles.filter(v => v.id !== id));
+    };
+
     const handleSaveVehicle = (e: React.FormEvent) => {
         e.preventDefault();
-        const newVehicle = {
-            id: vehicles.length + 1,
-            plate,
-            model,
-            type,
-            capacity: `${capacity} ton`,
-            odometer: parseInt(odometer) || 0,
-            status: "Idle"
-        };
-        setVehicles([...vehicles, newVehicle]);
-        setIsModalOpen(false);
 
-        // Reset form
-        setPlate(''); setModel(''); setType('Truck'); setCapacity(''); setOdometer('');
+        let newOdoStr = "0 km";
+        if (odometer) {
+            newOdoStr = `${parseInt(odometer).toLocaleString()} km`;
+        }
+
+        if (editingId !== null) {
+            setVehicles(vehicles.map(v => v.id === editingId ? {
+                ...v,
+                plate, model, type, capacity: `${capacity} ton`, odometer: newOdoStr
+            } : v));
+        } else {
+            const newVehicle = {
+                id: vehicles.length > 0 ? Math.max(...vehicles.map(v => v.id)) + 1 : 1,
+                plate, model, type, capacity: `${capacity} ton`, odometer: newOdoStr, status: "Idle"
+            };
+            setVehicles([...vehicles, newVehicle]);
+        }
+        setIsModalOpen(false);
     };
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                    <h1 className="text-2xl font-semibold tracking-tight">Vehicle Registry</h1>
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="space-y-4 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8"
+        >
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                <div className="space-y-1">
+                    <h1 className="text-xl font-semibold tracking-tight text-gray-900">Vehicle Registry</h1>
                     <p className="text-sm text-gray-500">Manage your active fleet and asset details.</p>
                 </div>
-                <div className="flex gap-2">
-                    <Button onClick={() => setIsModalOpen(true)}>+ New Vehicle</Button>
+                <div className="flex gap-3">
+                    <Button onClick={openModalNew} className="rounded-lg h-8 px-3 py-1.5 text-sm font-medium bg-black text-white hover:bg-gray-900 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all duration-200 shadow-sm">+ New Vehicle</Button>
                 </div>
             </div>
 
-            <Card>
-                <CardContent className="p-0">
+            <div className="rounded-xl border border-gray-200 overflow-hidden bg-white shadow-sm mb-4">
+                <div className="overflow-x-auto">
                     <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>No</TableHead>
-                                <TableHead>Plate Num</TableHead>
-                                <TableHead>Model</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Capacity</TableHead>
-                                <TableHead>Odometer</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Actions</TableHead>
+                        <TableHeader className="bg-gray-50/50">
+                            <TableRow className="border-b border-gray-200 hover:bg-transparent">
+                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">No</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Plate Num</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Model</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Type</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Capacity</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Odometer</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Status</TableHead>
+                                <TableHead className="text-xs uppercase tracking-wide text-gray-500 py-3 px-6 h-auto">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {vehicles.map((v) => (
-                                <TableRow key={v.id}>
-                                    <TableCell className="text-gray-500">{v.id}</TableCell>
-                                    <TableCell className="font-medium">{v.plate}</TableCell>
-                                    <TableCell>{v.model}</TableCell>
-                                    <TableCell>{v.type}</TableCell>
-                                    <TableCell>{v.capacity}</TableCell>
-                                    <TableCell>{v.odometer.toLocaleString()} km</TableCell>
-                                    <TableCell>
-                                        <Badge variant={v.status === "Idle" ? "secondary" : (v.status === "On Trip" ? "success" : "warning")}>
+                                <TableRow key={v.id} className="border-b border-gray-100 hover:bg-gray-50 transition duration-150 group">
+                                    <TableCell className="text-gray-500 px-6 py-3">{v.id}</TableCell>
+                                    <TableCell className="font-medium text-gray-900 px-6 py-3">{v.plate}</TableCell>
+                                    <TableCell className="text-gray-600 px-6 py-3">{v.model}</TableCell>
+                                    <TableCell className="text-gray-600 px-6 py-3">{v.type}</TableCell>
+                                    <TableCell className="text-gray-600 px-6 py-3">{v.capacity}</TableCell>
+                                    <TableCell className="text-gray-600 px-6 py-3">{v.odometer}</TableCell>
+                                    <TableCell className="px-6 py-3">
+                                        <span
+                                            className={`rounded-full px-2 py-0.5 text-xs font-medium ${v.status === "On Trip"
+                                                ? "bg-green-100 text-green-700"
+                                                : "bg-gray-100 text-gray-600"
+                                                }`}
+                                        >
                                             {v.status}
-                                        </Badge>
+                                        </span>
                                     </TableCell>
-                                    <TableCell>
-                                        <Button variant="ghost" className="h-8 px-2 text-xs">Edit</Button>
+                                    <TableCell className="px-6 py-3">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <button className="p-2 hover:bg-gray-100 rounded-md transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-black">
+                                                    <MoreHorizontal className="w-4 h-4 text-gray-600" />
+                                                </button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end" className="w-32 rounded-lg shadow-md border border-gray-200 bg-white">
+                                                <DropdownMenuItem onClick={() => handleEditVehicle(v)} className="hover:bg-gray-100 cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 focus:bg-gray-100 m-1">Edit</DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => handleDeleteVehicle(v.id)} className="text-red-600 hover:bg-red-50 hover:text-red-700 focus:bg-red-50 focus:text-red-700 cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 m-1">Delete</DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -95,55 +148,57 @@ export function VehicleRegistryPage() {
                             )}
                         </TableBody>
                     </Table>
-                </CardContent>
-            </Card>
+                </div>
+            </div>
 
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogHeader>
-                    <DialogTitle>Register New Vehicle</DialogTitle>
+                    <DialogTitle>{editingId ? "Edit Vehicle" : "Register New Vehicle"}</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSaveVehicle}>
                     <DialogContent className="space-y-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">License Plate</label>
-                            <Input required placeholder="Ex: ABC-1234" value={plate} onChange={e => setPlate(e.target.value)} />
+                            <Label className="text-sm font-medium">License Plate</Label>
+                            <Input required placeholder="Ex: ABC-1234" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={plate} onChange={e => setPlate(e.target.value)} />
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Type</label>
-                                <select
-                                    className="flex h-9 w-full rounded-md border border-gray-200 bg-white px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                                    value={type} onChange={e => setType(e.target.value)}
-                                >
-                                    <option value="Truck">Truck</option>
-                                    <option value="Trailer Truck">Trailer Truck</option>
-                                    <option value="Van">Van</option>
-                                </select>
+                                <Label className="text-sm font-medium">Type</Label>
+                                <Select value={type} onValueChange={setType}>
+                                    <SelectTrigger className="w-full focus:ring-2 focus:ring-black focus:ring-offset-1 rounded-lg">
+                                        <SelectValue placeholder="Select vehicle type" />
+                                    </SelectTrigger>
+                                    <SelectContent className="rounded-lg shadow-md border-gray-200">
+                                        <SelectItem value="Truck" className="hover:bg-gray-100 transition-colors">Truck</SelectItem>
+                                        <SelectItem value="Trailer Truck" className="hover:bg-gray-100 transition-colors">Trailer Truck</SelectItem>
+                                        <SelectItem value="Van" className="hover:bg-gray-100 transition-colors">Van</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Model</label>
-                                <Input required placeholder="Ex: Mini" value={model} onChange={e => setModel(e.target.value)} />
+                                <Label className="text-sm font-medium">Model</Label>
+                                <Input required placeholder="Ex: Mini" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={model} onChange={e => setModel(e.target.value)} />
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Max Payload (tons)</label>
-                                <Input type="number" required placeholder="5" value={capacity} onChange={e => setCapacity(e.target.value)} />
+                                <Label className="text-sm font-medium">Max Payload (tons)</Label>
+                                <Input type="number" required placeholder="5" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={capacity} onChange={e => setCapacity(e.target.value)} />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Initial Odometer</label>
-                                <Input type="number" required placeholder="0" value={odometer} onChange={e => setOdometer(e.target.value)} />
+                                <Label className="text-sm font-medium">Initial Odometer</Label>
+                                <Input type="number" required placeholder="0" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={odometer} onChange={e => setOdometer(e.target.value)} />
                             </div>
                         </div>
                     </DialogContent>
                     <DialogFooter>
-                        <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-                        <Button type="submit">Save Vehicle</Button>
+                        <Button type="button" variant="outline" className="rounded-lg h-10 font-medium focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 border-gray-200 hover:bg-gray-50" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+                        <Button type="submit" className="rounded-lg h-10 font-medium bg-black text-white hover:bg-gray-900 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all">Save Vehicle</Button>
                     </DialogFooter>
                 </form>
             </Dialog>
-        </div>
+        </motion.div>
     );
 }

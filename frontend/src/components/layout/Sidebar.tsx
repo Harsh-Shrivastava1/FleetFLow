@@ -45,9 +45,6 @@ export function Sidebar() {
         >
             <div className="h-16 flex items-center px-4 border-b border-gray-100 justify-between">
                 <div className={`flex items-center gap-3 overflow-hidden ${isExpanded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}>
-                    <div className="w-8 h-8 bg-black rounded flex items-center justify-center shrink-0">
-                        <span className="text-white font-bold text-sm">F</span>
-                    </div>
                     <h2 className="text-xl font-semibold tracking-tight whitespace-nowrap">FleetFlow</h2>
                 </div>
 

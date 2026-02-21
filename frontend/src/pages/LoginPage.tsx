@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -12,7 +12,11 @@ const MOCK_USERS = [
     { email: "dispatcher@test.com", password: "1234", role: "Dispatcher" }
 ];
 
-export function LoginPage() {
+interface LoginPageProps {
+    onToggleView?: () => void;
+}
+
+export function LoginPage({ onToggleView }: LoginPageProps) {
     const navigate = useNavigate();
     const [email, setEmail] = useState('manager@test.com');
     const [password, setPassword] = useState('1234');
@@ -44,9 +48,6 @@ export function LoginPage() {
         >
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
-                    <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mx-auto mb-4 hover:scale-[1.02] transition-transform">
-                        <span className="text-white font-bold text-xl">F</span>
-                    </div>
                     <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Welcome Back</h1>
                     <p className="text-sm text-gray-500 mt-2">Sign in to your fleet command center.</p>
                 </div>
@@ -101,9 +102,9 @@ export function LoginPage() {
 
                 <p className="text-center text-sm text-gray-600 mt-8 mb-4">
                     Don't have an account?{' '}
-                    <Link to="/register" className="font-semibold text-gray-900 hover:text-black transition-colors hover:underline">
+                    <button type="button" onClick={onToggleView} className="font-semibold text-gray-900 hover:text-black transition-colors hover:underline">
                         Register here
-                    </Link>
+                    </button>
                 </p>
             </div>
         </motion.div>

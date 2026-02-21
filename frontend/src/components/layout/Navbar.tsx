@@ -18,11 +18,11 @@ export function Navbar() {
         <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 z-10 sticky top-0">
             <div className="flex-1 max-w-md">
                 <div className="relative">
-                    <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+                    <svg className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
                     <input
                         type="search"
                         placeholder="Search..."
-                        className="w-full h-9 pl-9 pr-4 rounded-md border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black focus:bg-white transition-all"
+                        className="w-full h-10 pl-10 pr-4 rounded-full border border-gray-200 bg-gray-100/50 hover:bg-gray-100 focus:bg-white text-sm focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-300 transition-all font-medium text-gray-900 placeholder:text-gray-500"
                     />
                 </div>
             </div>
@@ -37,7 +37,7 @@ export function Navbar() {
                     </button>
                 </div>
 
-                <div className="flex items-center pl-4 border-l border-gray-200">
+                <div className="flex items-center pl-6 border-l border-gray-200 ml-2">
                     {!user ? (
                         <Button
                             onClick={() => navigate('/login')}

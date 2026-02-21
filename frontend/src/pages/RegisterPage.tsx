@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -7,7 +7,11 @@ import { Card, CardContent } from '../components/ui/card';
 import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 
-export function RegisterPage() {
+interface RegisterPageProps {
+    onToggleView?: () => void;
+}
+
+export function RegisterPage({ onToggleView }: RegisterPageProps) {
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -30,9 +34,6 @@ export function RegisterPage() {
         >
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
-                    <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mx-auto mb-4 hover:scale-[1.02] transition-transform">
-                        <span className="text-white font-bold text-xl">F</span>
-                    </div>
                     <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Create Account</h1>
                     <p className="text-sm text-gray-500 mt-2">Set up your profile for unified fleet access.</p>
                 </div>
@@ -94,9 +95,9 @@ export function RegisterPage() {
 
                 <p className="text-center text-sm text-gray-600 mt-8 mb-4">
                     Already have an account?{' '}
-                    <Link to="/login" className="font-semibold text-gray-900 hover:text-black transition-colors hover:underline">
+                    <button type="button" onClick={onToggleView} className="font-semibold text-gray-900 hover:text-black transition-colors hover:underline">
                         Sign in
-                    </Link>
+                    </button>
                 </p>
             </div>
         </motion.div>
