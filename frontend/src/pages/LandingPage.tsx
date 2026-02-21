@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/button';
@@ -7,10 +7,20 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { isValidToken } from '../constants/auth';
 
 export function LandingPage() {
     const navigate = useNavigate();
     const [isFlipped, setIsFlipped] = useState(false); // false = Login, true = Register
+
+    // Redirect to dashboard if already authenticated
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        if (token && user && isValidToken(token)) {
+            navigate('/dashboard', { replace: true });
+        }
+    }, [navigate]);
 
     // Login State
     const [loginEmail, setLoginEmail] = useState('');
