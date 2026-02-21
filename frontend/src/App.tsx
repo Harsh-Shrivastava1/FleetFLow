@@ -29,7 +29,10 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Navigate to="/" replace />} />
+        <Route path="/register" element={<Navigate to="/" replace />} />
 
         {/* Protected Routes Wrapper */}
         <Route element={<ProtectedRoute />}>
