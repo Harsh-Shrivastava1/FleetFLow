@@ -101,6 +101,8 @@ export function LandingPage() {
                                                 <SelectContent className="rounded-lg shadow-md border-gray-200">
                                                     <SelectItem value="Manager" className="hover:bg-gray-100 transition-colors cursor-pointer">Manager</SelectItem>
                                                     <SelectItem value="Dispatcher" className="hover:bg-gray-100 transition-colors cursor-pointer">Dispatcher</SelectItem>
+                                                    <SelectItem value="Safety Officer" className="hover:bg-gray-100 transition-colors cursor-pointer">Safety Officer</SelectItem>
+                                                    <SelectItem value="Financial Analyst" className="hover:bg-gray-100 transition-colors cursor-pointer">Financial Analyst</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
@@ -155,6 +157,8 @@ export function LandingPage() {
                                                 <SelectContent className="rounded-lg shadow-md border-gray-200">
                                                     <SelectItem value="Manager" className="hover:bg-gray-100 transition-colors cursor-pointer">Manager</SelectItem>
                                                     <SelectItem value="Dispatcher" className="hover:bg-gray-100 transition-colors cursor-pointer">Dispatcher</SelectItem>
+                                                    <SelectItem value="Safety Officer" className="hover:bg-gray-100 transition-colors cursor-pointer">Safety Officer</SelectItem>
+                                                    <SelectItem value="Financial Analyst" className="hover:bg-gray-100 transition-colors cursor-pointer">Financial Analyst</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
