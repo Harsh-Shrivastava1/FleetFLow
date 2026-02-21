@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { useFleetStore } from '../../store/useFleetStore';
 import { MetricCard } from '../../components/shared/MetricCard';
 import { PageHeader } from '../../components/shared/PageHeader';
@@ -29,36 +30,39 @@ export function ExpensesPage() {
     }, [expenses]);
 
     return (
-        <>
-            <div className="space-y-6">
-                <PageHeader
-                    title="Trip Expenses & Fuel Logging"
-                    subtitle="Track fuel, cost, and compute total operational cost per vehicle."
-                    actions={[{ label: 'Add Expense', icon: Plus, onClick: () => setIsSheetOpen(true) }]}
-                />
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="space-y-4 w-full px-6 py-4"
+        >
+            <PageHeader
+                title="Trip Expenses & Fuel Logging"
+                subtitle="Track fuel, cost, and compute total operational cost per vehicle."
+                actions={[{ label: 'Add Expense', icon: Plus, onClick: () => setIsSheetOpen(true) }]}
+            />
 
-                {/* KPI Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="">
-                        <MetricCard title="Total Fuel Spend" value={formatCurrency(totalFuelSpend)} icon={Fuel} trend={{ value: 3.2, isPositive: false }} iconColor="text-amber-600 bg-amber-50" />
-                    </div>
-                    <div className="">
-                        <MetricCard title="Total Maintenance Cost" value={formatCurrency(totalMaintenanceCost)} icon={DollarSign} trend={{ value: 1.8, isPositive: false }} iconColor="text-red-600 bg-red-50" />
-                    </div>
-                    <div className="">
-                        <MetricCard title="Avg Cost per KM" value={`₹${avgCostPerKm.toFixed(2)}`} icon={TrendingUp} trend={{ value: 4.5, isPositive: true }} />
-                    </div>
-                    <div className="">
-                        <MetricCard title="Most Expensive Vehicle" value={mostExpensiveVehicle} icon={Truck} iconColor="text-blue-600 bg-blue-50" />
-                    </div>
+            {/* KPI Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="">
+                    <MetricCard title="Total Fuel Spend" value={formatCurrency(totalFuelSpend)} icon={Fuel} trend={{ value: 3.2, isPositive: false }} iconColor="text-amber-600 bg-amber-50" />
                 </div>
-
-                {/* Table */}
-                <ExpensesTable vehicleFilter={vehicleFilter} onVehicleFilterChange={setVehicleFilter} onCreateExpense={() => setIsSheetOpen(true)} />
-
-                {/* Sheet Drawer */}
-                <ExpenseForm open={isSheetOpen} onClose={() => setIsSheetOpen(false)} />
+                <div className="">
+                    <MetricCard title="Total Maintenance Cost" value={formatCurrency(totalMaintenanceCost)} icon={DollarSign} trend={{ value: 1.8, isPositive: false }} iconColor="text-red-600 bg-red-50" />
+                </div>
+                <div className="">
+                    <MetricCard title="Avg Cost per KM" value={`₹${avgCostPerKm.toFixed(2)}`} icon={TrendingUp} trend={{ value: 4.5, isPositive: true }} />
+                </div>
+                <div className="">
+                    <MetricCard title="Most Expensive Vehicle" value={mostExpensiveVehicle} icon={Truck} iconColor="text-blue-600 bg-blue-50" />
+                </div>
             </div>
-        </>
+
+            {/* Table */}
+            <ExpensesTable vehicleFilter={vehicleFilter} onVehicleFilterChange={setVehicleFilter} onCreateExpense={() => setIsSheetOpen(true)} />
+
+            {/* Sheet Drawer */}
+            <ExpenseForm open={isSheetOpen} onClose={() => setIsSheetOpen(false)} />
+        </motion.div>
     );
 }

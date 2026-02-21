@@ -30,11 +30,11 @@ export function DashboardPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="space-y-4 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8"
+            className="space-y-4 w-full px-6 py-4"
         >
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
                 <div className="space-y-1">
-                    <h1 className="text-xl font-semibold tracking-tight text-gray-900">Dashboard Overview</h1>
+                    <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Dashboard Overview</h1>
                     <p className="text-xs text-gray-500">Live operational status of your fleet.</p>
                 </div>
                 <div className="flex gap-3">
@@ -47,7 +47,7 @@ export function DashboardPage() {
                 {KPI_DATA.map((kpi, idx) => {
                     const Icon = kpi.icon;
                     return (
-                        <Card key={idx} className="p-4 rounded-xl border border-gray-200 hover:shadow-sm transition-all bg-white cursor-default">
+                        <Card key={idx} className="p-4 rounded-xl border border-gray-200 transition-all bg-white cursor-default">
                             <div className="flex justify-between items-start">
                                 <span className="text-xs font-medium text-gray-500">{kpi.title}</span>
                                 <div className="p-2 bg-gray-100 rounded-lg">

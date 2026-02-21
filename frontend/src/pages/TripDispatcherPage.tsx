@@ -66,15 +66,15 @@ export function TripDispatcherPage() {
     const isOverweight = selectedVehicle && weight && parseFloat(weight) > selectedVehicle.capacityKg;
 
     return (
-        <div className="space-y-4 max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
+        <div className="space-y-4 w-full px-6 py-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
                 <div className="space-y-1">
-                    <h1 className="text-xl font-semibold tracking-tight text-gray-900">Trip Dispatcher</h1>
+                    <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Trip Dispatcher</h1>
                     <p className="text-sm text-gray-500">Monitor active routes and assign new trips.</p>
                 </div>
             </div>
 
-            <Card className="rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-4">
+            <Card className="rounded-xl border border-gray-200 overflow-hidden mb-4">
                 <div className="overflow-x-auto">
                     <Table>
                         <TableHeader className="bg-gray-50">
@@ -112,7 +112,7 @@ export function TripDispatcherPage() {
                 </div>
             </Card>
 
-            <Card className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm mt-4">
+            <Card className="p-6 rounded-xl border border-gray-200 bg-white mt-4">
                 <div>
                     <h2 className="text-lg font-semibold tracking-tight text-gray-900">Schedule New Trip</h2>
                 </div>
@@ -172,7 +172,7 @@ export function TripDispatcherPage() {
                     {error && !isOverweight && <div className="p-3 bg-red-50 text-red-800 text-sm rounded-md border border-red-100">{error}</div>}
 
                     <div className="pt-2">
-                        <Button type="submit" disabled={!!isOverweight} className="w-full py-2.5 rounded-lg font-medium bg-black text-white hover:bg-gray-900 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all duration-150 active:scale-95 shadow-sm">Confirm & Dispatch Trip</Button>
+                        <Button type="submit" disabled={!!isOverweight} className="w-full py-2.5 rounded-lg font-medium bg-black text-white hover:bg-gray-900 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all duration-150 active:scale-95">Confirm & Dispatch Trip</Button>
                     </div>
                 </form>
             </Card>

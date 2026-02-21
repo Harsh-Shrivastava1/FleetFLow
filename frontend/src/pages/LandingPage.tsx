@@ -2,195 +2,179 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { LoginPage } from './LoginPage';
-import { RegisterPage } from './RegisterPage';
+import { Card, CardContent } from '../components/ui/card';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 
 export function LandingPage() {
     const navigate = useNavigate();
-    const [isLogin, setIsLogin] = useState(true);
+    const [isFlipped, setIsFlipped] = useState(false); // false = Login, true = Register
 
-    // Check if user is already logged in
-    const isLoggedIn = !!localStorage.getItem('user');
+    // Login State
+    const [loginEmail, setLoginEmail] = useState('manager@test.com');
+    const [loginPassword, setLoginPassword] = useState('1234');
+    const [loginRole, setLoginRole] = useState('Manager');
+    const [loginError, setLoginError] = useState('');
 
-    const handleGetStarted = () => {
-        if (isLoggedIn) {
+    // Register State
+    const [regName, setRegName] = useState('');
+    const [regEmail, setRegEmail] = useState('');
+    const [regPassword, setRegPassword] = useState('');
+    const [regRole, setRegRole] = useState('Dispatcher');
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoginError('');
+        if (loginEmail === "manager@test.com" && loginPassword === "1234" && loginRole === "Manager") {
+            localStorage.setItem('user', JSON.stringify({ email: loginEmail, role: loginRole }));
             navigate('/dashboard');
         } else {
-            setIsLogin(true);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setLoginError('Invalid credentials (check email, password, or role)');
         }
     };
 
-    const handleSecondaryAction = () => {
-        if (isLoggedIn) {
-            navigate('/dashboard');
-        } else {
-            setIsLogin(false);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    const handleRegister = (e: React.FormEvent) => {
+        e.preventDefault();
+        localStorage.setItem('user', JSON.stringify({ email: regEmail, role: regRole, name: regName }));
+        navigate('/dashboard');
     };
 
     return (
-        <div className="min-h-screen bg-white font-sans text-gray-900 relative">
-            {/* BRAND LOGO TOP LEFT */}
-            <div className="absolute top-6 left-6 lg:top-8 lg:left-8 flex items-center gap-2 z-50">
-                <span className="text-lg font-bold tracking-tight text-gray-900"></span>
-            </div>
+        <div className="min-h-screen bg-gray-50 font-sans text-gray-900 relative flex items-center justify-center p-6 lg:p-12 overflow-hidden">
 
-            {/* SECTION 1: HERO SECTION */}
-            <section className="max-w-7xl mx-auto px-6 w-full min-h-[100dvh] grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-12">
+            <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+
+                {/* LEFT: Copy */}
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
                     className="space-y-6"
                 >
-                    <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-semibold tracking-tight text-gray-900 leading-tight">
+                    <div className="flex items-center mb-8">
+                        <span className="font-bold text-xl md:text-2xl text-gray-900 tracking-tight">FleetFlow</span>
+                    </div>
+
+                    <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-semibold tracking-tight text-gray-900 leading-[1.1]">
                         Manage Your Fleet. <br />Optimize Every Mile.
                     </h1>
-                    <p className="text-lg text-gray-500 max-w-lg leading-relaxed">
+                    <p className="text-lg md:text-xl text-gray-500 max-w-lg leading-relaxed mt-4 mb-8">
                         FleetFlow is a modular fleet and logistics management system designed to streamline operations, track performance, and improve decision-making.
                     </p>
                     <div className="flex flex-wrap gap-4 pt-4">
-                        <Button className="h-12 px-6 bg-black text-white hover:bg-gray-900 rounded-lg font-medium text-base shadow-sm focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all" onClick={handleGetStarted}>
-                            {isLoggedIn ? 'Go to Dashboard' : 'Sign In'}
+                        <Button className="h-12 px-8 bg-gray-900 text-white hover:bg-black rounded-lg font-medium text-base shadow-sm hover:shadow-md transition-all duration-200 active:scale-95" onClick={() => setIsFlipped(false)}>
+                            Sign In
                         </Button>
-                        <Button variant="outline" className="h-12 px-6 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg font-medium text-base focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all" onClick={handleSecondaryAction}>
-                            {isLoggedIn ? 'View Dashboard' : 'Register Now'}
+                        <Button variant="outline" className="h-12 px-8 border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50 bg-white rounded-lg font-medium text-base shadow-sm hover:shadow-md transition-all duration-200 active:scale-95" onClick={() => setIsFlipped(true)}>
+                            Register Now
                         </Button>
                     </div>
                 </motion.div>
 
+                {/* RIGHT: Auth Flip Card */}
                 <motion.div
-                    id="auth-section"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
-                    className="relative w-full max-w-md mx-auto lg:ml-auto lg:mr-0 xl:max-w-lg perspective -mt-8"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+                    className="relative w-full max-w-md mx-auto perspective-[1000px] h-[550px] z-10"
                 >
-                    <div className={`relative w-full transition-transform duration-500 [transform-style:preserve-3d] min-h-[550px] ${isLogin ? "" : "rotate-y-180"}`}>
+                    <div
+                        className={`relative w-full h-full text-left transition-all duration-500 [transform-style:preserve-3d] ${isFlipped ? "rotate-y-180" : ""}`}
+                    >
 
-                        {/* FRONT (Login) */}
-                        <div className="absolute top-0 left-0 w-full h-full backface-hidden z-10">
-                            <div className="w-full relative [&>div]:min-h-[auto] [&>div]:bg-transparent [&>div]:p-0 [&>div]:sm:p-0">
-                                <LoginPage onToggleView={() => setIsLogin(false)} />
-                            </div>
+                        {/* FRONT (LOGIN) */}
+                        <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
+                            <Card className="w-full h-full border-transparent shadow-md hover:shadow-lg transition-shadow duration-300 rounded-[2.5rem] bg-white/95 backdrop-blur-sm overflow-hidden flex flex-col justify-center">
+                                <CardContent className="p-8">
+                                    <div className="text-center mb-8">
+                                        <h2 className="text-2xl font-semibold tracking-tight text-gray-900">Welcome Back</h2>
+                                        <p className="text-sm text-gray-500 mt-2">Sign in to your fleet command center.</p>
+                                    </div>
+                                    <form onSubmit={handleLogin} className="space-y-5">
+                                        <div className="space-y-1.5 ">
+                                            <Label className="text-sm font-medium text-gray-900">Role</Label>
+                                            <Select value={loginRole} onValueChange={setLoginRole}>
+                                                <SelectTrigger className="w-full h-10 border-gray-200 hover:border-gray-300 transition-colors focus:ring-2 focus:ring-gray-900/80 focus:border-transparent rounded-lg bg-gray-50">
+                                                    <SelectValue placeholder="Select a role" />
+                                                </SelectTrigger>
+                                                <SelectContent className="rounded-lg shadow-md border-gray-200">
+                                                    <SelectItem value="Manager" className="hover:bg-gray-100 transition-colors cursor-pointer">Manager</SelectItem>
+                                                    <SelectItem value="Dispatcher" className="hover:bg-gray-100 transition-colors cursor-pointer">Dispatcher</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-sm font-medium text-gray-900">Email Address</Label>
+                                            <Input required type="email" placeholder="name@company.com" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-sm font-medium text-gray-900">Password</Label>
+                                            <Input required type="password" placeholder="••••••••" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
+                                        </div>
+                                        {loginError && <p className="text-sm text-red-600 font-medium px-1">{loginError}</p>}
+                                        <Button type="submit" className="w-full h-10 rounded-lg font-medium bg-gray-900 text-white hover:bg-black focus-visible:ring-2 focus-visible:ring-gray-900/80 transition-all mt-4 shadow-sm hover:shadow-md active:scale-95">Sign In</Button>
+                                    </form>
+                                    <p className="text-center text-sm text-gray-500 mt-8">
+                                        Don't have an account?{' '}
+                                        <button type="button" onClick={() => setIsFlipped(true)} className="font-semibold text-gray-900 hover:text-black transition-colors hover:underline">
+                                            Register here
+                                        </button>
+                                    </p>
+                                </CardContent>
+                            </Card>
                         </div>
 
-                        {/* BACK (Register) */}
-                        <div className="absolute top-0 left-0 w-full h-full rotate-y-180 backface-hidden pointer-events-auto">
-                            <div className="w-full relative [&>div]:min-h-[auto] [&>div]:bg-transparent [&>div]:p-0 [&>div]:sm:p-0">
-                                <RegisterPage onToggleView={() => setIsLogin(true)} />
-                            </div>
+                        {/* BACK (REGISTER) */}
+                        <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                            <Card className="w-full h-full border-transparent shadow-md hover:shadow-lg transition-shadow duration-300 rounded-[2.5rem] bg-white/95 backdrop-blur-sm overflow-hidden flex flex-col justify-center">
+                                <CardContent className="p-8">
+                                    <div className="text-center mb-6">
+                                        <h2 className="text-2xl font-semibold tracking-tight text-gray-900">Create Account</h2>
+                                        <p className="text-sm text-gray-500 mt-2">Set up your profile for unified fleet access.</p>
+                                    </div>
+                                    <form onSubmit={handleRegister} className="space-y-4">
+                                        <div className="space-y-1.5">
+                                            <Label className="text-sm font-medium text-gray-900">Full Name</Label>
+                                            <Input required placeholder="John Doe" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={regName} onChange={e => setRegName(e.target.value)} />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-sm font-medium text-gray-900">Email Address</Label>
+                                            <Input required type="email" placeholder="name@company.com" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={regEmail} onChange={e => setRegEmail(e.target.value)} />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-sm font-medium text-gray-900">Password</Label>
+                                            <Input required type="password" placeholder="••••••••" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={regPassword} onChange={e => setRegPassword(e.target.value)} />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-sm font-medium text-gray-900">Requested Role</Label>
+                                            <Select value={regRole} onValueChange={setRegRole}>
+                                                <SelectTrigger className="w-full h-10 border-gray-200 hover:border-gray-300 transition-colors focus:ring-2 focus:ring-gray-900/80 focus:border-transparent rounded-lg bg-gray-50">
+                                                    <SelectValue placeholder="Select a role" />
+                                                </SelectTrigger>
+                                                <SelectContent className="rounded-lg shadow-md border-gray-200">
+                                                    <SelectItem value="Manager" className="hover:bg-gray-100 transition-colors cursor-pointer">Manager</SelectItem>
+                                                    <SelectItem value="Dispatcher" className="hover:bg-gray-100 transition-colors cursor-pointer">Dispatcher</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <Button type="submit" className="w-full h-10 rounded-lg font-medium bg-gray-900 text-white hover:bg-black focus-visible:ring-2 focus-visible:ring-gray-900/80 transition-all mt-6 shadow-sm hover:shadow-md active:scale-95">Create Account</Button>
+                                    </form>
+                                    <p className="text-center text-sm text-gray-500 mt-6">
+                                        Already have an account?{' '}
+                                        <button type="button" onClick={() => setIsFlipped(false)} className="font-semibold text-gray-900 hover:text-black transition-colors hover:underline">
+                                            Sign in
+                                        </button>
+                                    </p>
+                                </CardContent>
+                            </Card>
                         </div>
 
                     </div>
                 </motion.div>
-            </section >
 
-            {/* SECTION 3: FEATURES */}
-            < section className="max-w-7xl mx-auto px-6 py-16" >
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3 }}
-                >
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <Card className="rounded-xl border-gray-200 shadow-sm">
-                            <CardHeader>
-                                <CardTitle className="text-lg font-semibold text-gray-900">Fleet Management</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-sm text-gray-500">Track vehicles, availability, and lifecycle.</p>
-                            </CardContent>
-                        </Card>
-                        <Card className="rounded-xl border-gray-200 shadow-sm">
-                            <CardHeader>
-                                <CardTitle className="text-lg font-semibold text-gray-900">Smart Dispatching</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-sm text-gray-500">Assign drivers and trips with validation.</p>
-                            </CardContent>
-                        </Card>
-                        <Card className="rounded-xl border-gray-200 shadow-sm">
-                            <CardHeader>
-                                <CardTitle className="text-lg font-semibold text-gray-900">Maintenance Tracking</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-sm text-gray-500">Prevent breakdowns with service logs.</p>
-                            </CardContent>
-                        </Card>
-                        <Card className="rounded-xl border-gray-200 shadow-sm">
-                            <CardHeader>
-                                <CardTitle className="text-lg font-semibold text-gray-900">Analytics & Insights</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-sm text-gray-500">Monitor fuel, cost, and ROI.</p>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </motion.div>
-            </section >
+            </div>
 
-            {/* SECTION 4: HOW IT WORKS */}
-            < section className="bg-gray-50 border-y border-gray-100 py-16" >
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3 }}
-                    className="max-w-7xl mx-auto px-6 text-center"
-                >
-                    <div className="flex flex-col md:flex-row justify-center items-start gap-8 md:gap-4 lg:gap-8 relative">
-                        {['Register Fleet', 'Assign Drivers', 'Dispatch Trips', 'Monitor Performance'].map((step, idx) => (
-                            <div key={idx} className="flex-1 flex flex-col items-center relative z-10">
-                                <div className="w-12 h-12 rounded-full bg-white border-2 border-black flex items-center justify-center font-bold text-lg mb-4 text-gray-900 shadow-sm">
-                                    {idx + 1}
-                                </div>
-                                <h3 className="font-semibold text-gray-900">{step}</h3>
-                                {idx < 3 && (
-                                    <div className="hidden md:block absolute top-6 left-[calc(50%+1.5rem)] w-[calc(100%-3rem)] h-[2px] bg-gray-200 -z-10"></div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
-            </section >
-
-            {/* SECTION 4: CTA SECTION */}
-            < section className="max-w-7xl mx-auto px-6 py-24 text-center" >
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3 }}
-                >
-                    <h2 className="text-3xl font-semibold tracking-tight text-gray-900 mb-8">Start Managing Your Fleet Today</h2>
-                    <div className="flex flex-wrap items-center justify-center gap-4">
-                        <Button className="bg-black text-white hover:bg-gray-900 font-medium rounded-lg px-8 h-12 text-base shadow-sm focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all" onClick={handleGetStarted}>
-                            {isLoggedIn ? 'Go to Dashboard' : 'Sign In'}
-                        </Button>
-                        <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 font-medium rounded-lg px-8 h-12 text-base focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all" onClick={handleSecondaryAction}>
-                            {isLoggedIn ? 'View Dashboard' : 'Register Now'}
-                        </Button>
-                    </div>
-                </motion.div>
-            </section >
-
-            {/* SECTION 5: FOOTER */}
-            < footer className="border-t border-gray-100 py-8 bg-white" >
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 bg-black rounded flex items-center justify-center">
-                            <span className="text-white font-bold text-xs">F</span>
-                        </div>
-                        <span className="font-bold text-gray-900 tracking-tight">FleetFlow</span>
-                    </div>
-                    <p className="text-sm text-gray-500">© 2026 FleetFlow. All rights reserved.</p>
-                </div>
-            </footer >
-        </div >
+        </div>
     );
 }

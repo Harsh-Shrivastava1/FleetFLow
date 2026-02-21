@@ -50,7 +50,7 @@ export function Sidebar() {
 
                 <button
                     onClick={() => setIsCollapsed(!isCollapsed)}
-                    className="p-1.5 hover:bg-gray-100 rounded-md text-gray-500 hover:text-black transition-colors shrink-0 absolute right-3"
+                    className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-black transition-all shrink-0 absolute right-3"
                 >
                     {isExpanded && !isCollapsed ? <ChevronRight className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
@@ -65,7 +65,7 @@ export function Sidebar() {
                             key={item.name}
                             to={item.path}
                             onClick={handleLinkClick}
-                            className={`flex items-center px-2.5 py-2 text-sm font-medium rounded-md transition-colors ${isActive
+                            className={`flex items-center px-2.5 py-2 text-sm font-medium rounded-lg transition-all ${isActive
                                 ? 'bg-gray-100 text-black font-semibold'
                                 : 'text-gray-600 hover:bg-gray-50 hover:text-black'
                                 }`}

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { useFleetStore } from '../../store/useFleetStore';
 import type { Driver } from '../../types/models';
 import { MetricCard } from '../../components/shared/MetricCard';
@@ -38,76 +39,79 @@ export function DriversPage() {
     };
 
     return (
-        <>
-            <div className="space-y-6">
-                <PageHeader
-                    title="Driver Performance & Safety"
-                    subtitle="Monitor performance, safety scores, and license compliance."
-                    actions={[{ label: 'Add Driver', icon: Plus, onClick: () => setIsCreateOpen(true) }]}
-                />
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="space-y-4 w-full px-6 py-4"
+        >
+            <PageHeader
+                title="Driver Performance & Safety"
+                subtitle="Monitor performance, safety scores, and license compliance."
+                actions={[{ label: 'Add Driver', icon: Plus, onClick: () => setIsCreateOpen(true) }]}
+            />
 
-                {/* Expired License Alert */}
-                {expiredLicenses.length > 0 && (
-                    <div className=" rounded-lg bg-red-50 border border-red-200 p-4 flex items-center gap-3">
-                        <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
-                        <p className="text-sm text-red-600">
-                            <span className="font-semibold">{expiredLicenses.length} driver(s)</span> have expired licenses:{' '}
-                            {expiredLicenses.map(d => d.name).join(', ')}
-                        </p>
-                    </div>
-                )}
-
-                {/* KPI Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="">
-                        <MetricCard title="Active Drivers" value={activeDrivers.length} icon={Users} trend={{ value: 2, isPositive: true }} />
-                    </div>
-                    <div className="">
-                        <MetricCard title="Avg Safety Score" value={avgSafetyScore} icon={Shield} trend={{ value: 3, isPositive: true }} iconColor="text-blue-600 bg-blue-50" />
-                    </div>
-                    <div className="">
-                        <MetricCard title="Avg Completion Rate" value={`${avgCompletionRate}%`} icon={Award} trend={{ value: 1.5, isPositive: true }} iconColor="text-purple-400 bg-purple-500/10" />
-                    </div>
-                    <div className="">
-                        <MetricCard title="Expired Licenses" value={expiredLicenses.length} icon={AlertCircle} trend={{ value: expiredLicenses.length, isPositive: false }} iconColor="text-red-600 bg-red-50" />
-                    </div>
+            {/* Expired License Alert */}
+            {expiredLicenses.length > 0 && (
+                <div className=" rounded-lg bg-red-50 border border-red-200 p-4 flex items-center gap-3">
+                    <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
+                    <p className="text-sm text-red-600">
+                        <span className="font-semibold">{expiredLicenses.length} driver(s)</span> have expired licenses:{' '}
+                        {expiredLicenses.map(d => d.name).join(', ')}
+                    </p>
                 </div>
+            )}
 
-                {/* Table */}
-                <DriversTable
-                    statusFilter={statusFilter}
-                    onStatusFilterChange={setStatusFilter}
-                    onViewDriver={setViewDriverId}
-                    onToggleStatus={handleToggleStatus}
-                    onCreateDriver={() => setIsCreateOpen(true)}
-                />
-
-                {/* Driver Profile Sheet */}
-                <DriverProfile
-                    driver={viewedDriver}
-                    onClose={() => setViewDriverId(null)}
-                    onSuspend={() => { if (viewDriverId) setSuspendConfirm(viewDriverId); }}
-                />
-
-                {/* Create Form */}
-                <DriverForm open={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
-
-                {/* Suspend Confirmation */}
-                <ConfirmAction
-                    open={!!suspendConfirm}
-                    onOpenChange={() => setSuspendConfirm(null)}
-                    title="Suspend Driver?"
-                    description="This driver will be removed from all active schedules and cannot be assigned new trips."
-                    confirmLabel="Suspend Driver"
-                    variant="destructive"
-                    onConfirm={() => {
-                        if (suspendConfirm) {
-                            updateDriverStatus(suspendConfirm, 'Suspended');
-                            setViewDriverId(null);
-                        }
-                    }}
-                />
+            {/* KPI Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="">
+                    <MetricCard title="Active Drivers" value={activeDrivers.length} icon={Users} trend={{ value: 2, isPositive: true }} />
+                </div>
+                <div className="">
+                    <MetricCard title="Avg Safety Score" value={avgSafetyScore} icon={Shield} trend={{ value: 3, isPositive: true }} iconColor="text-blue-600 bg-blue-50" />
+                </div>
+                <div className="">
+                    <MetricCard title="Avg Completion Rate" value={`${avgCompletionRate}%`} icon={Award} trend={{ value: 1.5, isPositive: true }} iconColor="text-purple-400 bg-purple-500/10" />
+                </div>
+                <div className="">
+                    <MetricCard title="Expired Licenses" value={expiredLicenses.length} icon={AlertCircle} trend={{ value: expiredLicenses.length, isPositive: false }} iconColor="text-red-600 bg-red-50" />
+                </div>
             </div>
-        </>
+
+            {/* Table */}
+            <DriversTable
+                statusFilter={statusFilter}
+                onStatusFilterChange={setStatusFilter}
+                onViewDriver={setViewDriverId}
+                onToggleStatus={handleToggleStatus}
+                onCreateDriver={() => setIsCreateOpen(true)}
+            />
+
+            {/* Driver Profile Sheet */}
+            <DriverProfile
+                driver={viewedDriver}
+                onClose={() => setViewDriverId(null)}
+                onSuspend={() => { if (viewDriverId) setSuspendConfirm(viewDriverId); }}
+            />
+
+            {/* Create Form */}
+            <DriverForm open={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
+
+            {/* Suspend Confirmation */}
+            <ConfirmAction
+                open={!!suspendConfirm}
+                onOpenChange={() => setSuspendConfirm(null)}
+                title="Suspend Driver?"
+                description="This driver will be removed from all active schedules and cannot be assigned new trips."
+                confirmLabel="Suspend Driver"
+                variant="destructive"
+                onConfirm={() => {
+                    if (suspendConfirm) {
+                        updateDriverStatus(suspendConfirm, 'Suspended');
+                        setViewDriverId(null);
+                    }
+                }}
+            />
+        </motion.div>
     );
 }
