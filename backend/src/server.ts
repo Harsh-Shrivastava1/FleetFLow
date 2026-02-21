@@ -1,15 +1,16 @@
-import express from "express";
-import dotenv from "dotenv";
+import { app } from "./app.ts";
+import { env } from "./config/env.ts";
+import { checkDbConnection } from "./db/database.ts";
+import { ensureFleetflowSchema } from "./db/fleetflowSchema.ts";
 
-dotenv.config();
+try {
+  await checkDbConnection();
+  await ensureFleetflowSchema();
+} catch (err) {
+  console.error("❌ startup failed", err);
+  process.exit(1);
+}
 
-const app = express();
-const PORT = process.env.PORT || 3001;
-
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
+app.listen(env.port, () => {
+  console.log(`Server is running at http://localhost:${env.port}`);
 });
