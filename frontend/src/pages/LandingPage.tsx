@@ -7,15 +7,15 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { MOCK_USERS } from '../constants/auth';
 
 export function LandingPage() {
     const navigate = useNavigate();
     const [isFlipped, setIsFlipped] = useState(false); // false = Login, true = Register
 
     // Login State
-    const [loginEmail, setLoginEmail] = useState('manager@test.com');
-    const [loginPassword, setLoginPassword] = useState('1234');
-    const [loginRole, setLoginRole] = useState('Manager');
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginPassword, setLoginPassword] = useState('');
     const [loginError, setLoginError] = useState('');
 
     // Register State
@@ -27,11 +27,19 @@ export function LandingPage() {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         setLoginError('');
-        if (loginEmail === "manager@test.com" && loginPassword === "1234" && loginRole === "Manager") {
-            localStorage.setItem('user', JSON.stringify({ email: loginEmail, role: loginRole }));
+
+        const matchedUser = MOCK_USERS.find(
+            u => u.email.toLowerCase() === loginEmail.toLowerCase() && u.password === loginPassword
+        );
+
+        if (matchedUser) {
+            localStorage.setItem('user', JSON.stringify({
+                email: matchedUser.email,
+                role: matchedUser.role
+            }));
             navigate('/dashboard');
         } else {
-            setLoginError('Invalid credentials (check email, password, or role)');
+            setLoginError('Invalid email or password');
         }
     };
 
@@ -97,18 +105,6 @@ export function LandingPage() {
                                         <p className="text-sm text-muted-foreground mt-2">Sign in to your fleet command center.</p>
                                     </div>
                                     <form onSubmit={handleLogin} className="space-y-5">
-                                        <div className="space-y-1.5 ">
-                                            <Label className="text-sm font-medium text-foreground">Role</Label>
-                                            <Select value={loginRole} onValueChange={setLoginRole}>
-                                                <SelectTrigger className="w-full h-10 border-border hover:border-border/80 transition-colors focus:ring-2 focus:ring-ring focus:border-transparent rounded-lg bg-background">
-                                                    <SelectValue placeholder="Select a role" />
-                                                </SelectTrigger>
-                                                <SelectContent className="rounded-lg shadow-md border-border bg-popover">
-                                                    <SelectItem value="Manager" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Manager</SelectItem>
-                                                    <SelectItem value="Dispatcher" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Dispatcher</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
                                         <div className="space-y-1.5">
                                             <Label className="text-sm font-medium text-foreground">Email Address</Label>
                                             <Input required type="email" placeholder="name@company.com" className="h-10 border-border hover:border-border/80 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-transparent rounded-lg bg-background" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
@@ -160,6 +156,8 @@ export function LandingPage() {
                                                 <SelectContent className="rounded-lg shadow-md border-border bg-popover">
                                                     <SelectItem value="Manager" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Manager</SelectItem>
                                                     <SelectItem value="Dispatcher" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Dispatcher</SelectItem>
+                                                    <SelectItem value="Safety Officer" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Safety Officer</SelectItem>
+                                                    <SelectItem value="Financial Analyst" className="hover:bg-muted transition-colors cursor-pointer text-popover-foreground">Financial Analyst</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>

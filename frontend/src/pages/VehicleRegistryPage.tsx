@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../components/ui/dropdown-menu';
 import { motion } from 'framer-motion';
 import { MoreHorizontal } from 'lucide-react';
+import type { UserRole } from '../constants/auth';
 
 const INITIAL_VEHICLES = [
     { id: 1, plate: "MH00AB1234", model: "Mini", type: "Truck", capacity: "5 ton", odometer: "70,000 km", status: "Idle" },
@@ -19,6 +20,10 @@ const INITIAL_VEHICLES = [
 ];
 
 export function VehicleRegistryPage() {
+    const userString = localStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : { role: 'guest' };
+    const role = user.role as UserRole;
+
     const [vehicles, setVehicles] = useState(INITIAL_VEHICLES);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
@@ -86,7 +91,9 @@ export function VehicleRegistryPage() {
                     <p className="text-sm text-muted-foreground">Manage your active fleet and asset details.</p>
                 </div>
                 <div className="flex gap-3">
-                    <Button onClick={openModalNew} className="rounded-lg h-8 px-3 py-1.5 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 transition-all duration-200 shadow-sm">+ New Vehicle</Button>
+                    {role === 'manager' && (
+                        <Button onClick={openModalNew} className="rounded-lg h-8 px-3 py-1.5 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 transition-all duration-200 shadow-sm">+ New Vehicle</Button>
+                    )}
                 </div>
             </div>
 
@@ -125,17 +132,19 @@ export function VehicleRegistryPage() {
                                         </span>
                                     </TableCell>
                                     <TableCell className="px-6 py-3">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <button className="p-2 hover:bg-muted rounded-md transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-ring">
-                                                    <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
-                                                </button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end" className="w-32 rounded-lg shadow-md border border-border bg-popover text-popover-foreground">
-                                                <DropdownMenuItem onClick={() => handleEditVehicle(v)} className="hover:bg-muted cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 focus:bg-muted m-1">Edit</DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => handleDeleteVehicle(v.id)} className="text-destructive hover:bg-destructive/10 hover:text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 m-1">Delete</DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                        {role === 'manager' && (
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <button className="p-2 hover:bg-muted rounded-md transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-ring">
+                                                        <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
+                                                    </button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end" className="w-32 rounded-lg shadow-md border border-border bg-popover text-popover-foreground">
+                                                    <DropdownMenuItem onClick={() => handleEditVehicle(v)} className="hover:bg-muted cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 focus:bg-muted m-1">Edit</DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => handleDeleteVehicle(v.id)} className="text-destructive hover:bg-destructive/10 hover:text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer transition-colors text-sm rounded-md px-2 py-1.5 m-1">Delete</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))}
