@@ -6,15 +6,15 @@ import { Card, CardContent } from '../components/ui/card';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { MOCK_USERS } from '../constants/auth';
 
 export function LandingPage() {
     const navigate = useNavigate();
     const [isFlipped, setIsFlipped] = useState(false); // false = Login, true = Register
 
     // Login State
-    const [loginEmail, setLoginEmail] = useState('manager@test.com');
-    const [loginPassword, setLoginPassword] = useState('1234');
-    const [loginRole, setLoginRole] = useState('Manager');
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginPassword, setLoginPassword] = useState('');
     const [loginError, setLoginError] = useState('');
 
     // Register State
@@ -26,11 +26,19 @@ export function LandingPage() {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         setLoginError('');
-        if (loginEmail === "manager@test.com" && loginPassword === "1234" && loginRole === "Manager") {
-            localStorage.setItem('user', JSON.stringify({ email: loginEmail, role: loginRole }));
+
+        const matchedUser = MOCK_USERS.find(
+            u => u.email.toLowerCase() === loginEmail.toLowerCase() && u.password === loginPassword
+        );
+
+        if (matchedUser) {
+            localStorage.setItem('user', JSON.stringify({
+                email: matchedUser.email,
+                role: matchedUser.role
+            }));
             navigate('/dashboard');
         } else {
-            setLoginError('Invalid credentials (check email, password, or role)');
+            setLoginError('Invalid email or password');
         }
     };
 
@@ -92,23 +100,16 @@ export function LandingPage() {
                                         <p className="text-sm text-gray-500 mt-2">Sign in to your fleet command center.</p>
                                     </div>
                                     <form onSubmit={handleLogin} className="space-y-5">
-                                        <div className="space-y-1.5 ">
-                                            <Label className="text-sm font-medium text-gray-900">Role</Label>
-                                            <Select value={loginRole} onValueChange={setLoginRole}>
-                                                <SelectTrigger className="w-full h-10 border-gray-200 hover:border-gray-300 transition-colors focus:ring-2 focus:ring-gray-900/80 focus:border-transparent rounded-lg bg-gray-50">
-                                                    <SelectValue placeholder="Select a role" />
-                                                </SelectTrigger>
-                                                <SelectContent className="rounded-lg shadow-md border-gray-200">
-                                                    <SelectItem value="Manager" className="hover:bg-gray-100 transition-colors cursor-pointer">Manager</SelectItem>
-                                                    <SelectItem value="Dispatcher" className="hover:bg-gray-100 transition-colors cursor-pointer">Dispatcher</SelectItem>
-                                                    <SelectItem value="Safety Officer" className="hover:bg-gray-100 transition-colors cursor-pointer">Safety Officer</SelectItem>
-                                                    <SelectItem value="Financial Analyst" className="hover:bg-gray-100 transition-colors cursor-pointer">Financial Analyst</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
                                         <div className="space-y-1.5">
                                             <Label className="text-sm font-medium text-gray-900">Email Address</Label>
-                                            <Input required type="email" placeholder="name@company.com" className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
+                                            <Input
+                                                required
+                                                type="email"
+                                                placeholder="name@company.com"
+                                                className="h-10 border-gray-200 hover:border-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-gray-900/80 focus-visible:border-transparent rounded-lg bg-gray-50"
+                                                value={loginEmail}
+                                                onChange={e => setLoginEmail(e.target.value)}
+                                            />
                                         </div>
                                         <div className="space-y-1.5">
                                             <Label className="text-sm font-medium text-gray-900">Password</Label>

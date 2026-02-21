@@ -9,8 +9,11 @@ import {
     TrendingUp,
     PieChart,
     Menu,
-    ChevronRight
+    ChevronRight,
+    User
 } from 'lucide-react';
+import type { UserRole } from '../../constants/auth';
+import { hasPermission } from '../../constants/auth';
 
 const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
@@ -23,18 +26,22 @@ const navItems = [
 ];
 
 export function Sidebar() {
-    // Default to collapsed = true as per instructions
-    const [isCollapsed, setIsCollapsed] = useState(true);
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const location = useLocation();
 
-    // If sidebar is pinned open or hovered, it's virtually expanded
     const isExpanded = !isCollapsed || isHovered;
 
     const handleLinkClick = () => {
         // Auto collapse on route change if it was pinned open
-        setIsCollapsed(true);
+        if (!isCollapsed) setIsCollapsed(true);
     };
+
+    const userString = localStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : { role: 'guest' };
+    const role = user.role as UserRole;
+
+    const allowedNavItems = navItems.filter(item => hasPermission(role, item.path));
 
     return (
         <div
@@ -57,7 +64,7 @@ export function Sidebar() {
             </div>
 
             <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto overflow-x-hidden">
-                {navItems.map((item) => {
+                {allowedNavItems.map((item) => {
                     const isActive = location.pathname === item.path;
                     const Icon = item.icon;
                     return (
@@ -66,15 +73,12 @@ export function Sidebar() {
                             to={item.path}
                             onClick={handleLinkClick}
                             className={`flex items-center px-2.5 py-2 text-sm font-medium rounded-lg transition-all ${isActive
-                                ? 'bg-gray-100 text-black font-semibold'
+                                ? 'bg-black text-white shadow-sm'
                                 : 'text-gray-600 hover:bg-gray-50 hover:text-black'
                                 }`}
-                            title={isCollapsed && !isHovered ? item.name : undefined}
                         >
-                            <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-black' : 'text-gray-500'}`} />
-
-                            <span className={`ml-3 whitespace-nowrap transition-opacity duration-200 ${isExpanded ? 'opacity-100' : 'opacity-0 hidden w-0'
-                                }`}>
+                            <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-black'}`} />
+                            <span className={`ml-3 transition-opacity duration-300 whitespace-nowrap ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
                                 {item.name}
                             </span>
                         </NavLink>
@@ -82,7 +86,17 @@ export function Sidebar() {
                 })}
             </nav>
 
-            {/* Profile section logic removed from here as it will go to navbar, keeping minimal spacing */}
+            <div className="p-4 border-t border-gray-100">
+                <div className={`flex items-center ${isExpanded ? 'gap-3' : 'justify-center'} overflow-hidden`}>
+                    <div className="w-8 h-8 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-600 shrink-0">
+                        <User className="w-4 h-4" />
+                    </div>
+                    <div className={`flex flex-col transition-all duration-300 ${isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
+                        <span className="text-sm font-medium text-gray-900 truncate">{user.email?.split('@')[0]}</span>
+                        <span className="text-xs text-gray-500 capitalize">{role}</span>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
