@@ -4,6 +4,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 
 const INITIAL_TRIPS = [
     { id: 1, type: "Trailer Truck", origin: "Mumbai", destination: "Delhi", status: "On Way" },
@@ -106,54 +108,58 @@ export function TripDispatcherPage() {
                     <form onSubmit={handleDispatch} className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Select Vehicle</label>
-                                <select
-                                    className="flex h-9 w-full rounded-md border border-gray-200 bg-white px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-black"
-                                    value={vehicleId} onChange={e => setVehicleId(e.target.value)}
-                                >
-                                    {MOCK_VEHICLES.map(v => (
-                                        <option key={v.id} value={v.id}>{v.label}</option>
-                                    ))}
-                                </select>
+                                <Label className="text-sm font-medium">Select Vehicle</Label>
+                                <Select value={vehicleId} onValueChange={setVehicleId}>
+                                    <SelectTrigger className="w-full focus:ring-2 focus:ring-black focus:ring-offset-1 rounded-lg">
+                                        <SelectValue placeholder="Select a vehicle" />
+                                    </SelectTrigger>
+                                    <SelectContent className="rounded-lg shadow-md border-gray-200">
+                                        {MOCK_VEHICLES.map(v => (
+                                            <SelectItem key={v.id} value={v.id} className="hover:bg-gray-100 transition-colors">{v.label}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Select Driver</label>
-                                <select
-                                    className="flex h-9 w-full rounded-md border border-gray-200 bg-white px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-black"
-                                    value={driverId} onChange={e => setDriverId(e.target.value)}
-                                >
-                                    {MOCK_DRIVERS.map(d => (
-                                        <option key={d.id} value={d.id}>{d.name}</option>
-                                    ))}
-                                </select>
+                                <Label className="text-sm font-medium">Select Driver</Label>
+                                <Select value={driverId} onValueChange={setDriverId}>
+                                    <SelectTrigger className="w-full focus:ring-2 focus:ring-black focus:ring-offset-1 rounded-lg">
+                                        <SelectValue placeholder="Select a driver" />
+                                    </SelectTrigger>
+                                    <SelectContent className="rounded-lg shadow-md border-gray-200">
+                                        {MOCK_DRIVERS.map(d => (
+                                            <SelectItem key={d.id} value={d.id} className="hover:bg-gray-100 transition-colors">{d.name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Cargo Weight (kg)</label>
-                                <Input required type="number" placeholder="Enter weight" value={weight} onChange={e => setWeight(e.target.value)} />
+                                <Label className="text-sm font-medium">Cargo Weight (kg)</Label>
+                                <Input required type="number" placeholder="Enter weight" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={weight} onChange={e => setWeight(e.target.value)} />
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Estimated Fuel Cost</label>
-                                <Input required type="number" placeholder="$0.00" value={estCost} onChange={e => setEstCost(e.target.value)} />
+                                <Label className="text-sm font-medium">Estimated Fuel Cost</Label>
+                                <Input required type="number" placeholder="$0.00" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={estCost} onChange={e => setEstCost(e.target.value)} />
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Origin Address</label>
-                                <Input required placeholder="Ex: Warehouse A" value={origin} onChange={e => setOrigin(e.target.value)} />
+                                <Label className="text-sm font-medium">Origin Address</Label>
+                                <Input required placeholder="Ex: Warehouse A" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={origin} onChange={e => setOrigin(e.target.value)} />
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Destination</label>
-                                <Input required placeholder="Ex: Client Site B" value={destination} onChange={e => setDestination(e.target.value)} />
+                                <Label className="text-sm font-medium">Destination</Label>
+                                <Input required placeholder="Ex: Client Site B" className="h-10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 rounded-lg border-gray-200" value={destination} onChange={e => setDestination(e.target.value)} />
                             </div>
                         </div>
 
                         {error && <div className="p-3 bg-red-50 text-red-800 text-sm rounded-md border border-red-100">{error}</div>}
 
                         <div className="flex justify-end pt-4 border-t border-gray-100">
-                            <Button type="submit">Confirm & Dispatch Trip</Button>
+                            <Button type="submit" className="h-10 rounded-lg font-medium bg-black text-white hover:bg-gray-900 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all">Confirm & Dispatch Trip</Button>
                         </div>
                     </form>
                 </CardContent>

@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const KPI_DATA = [
     { title: "Active Fleet", value: "220" },
@@ -20,62 +21,76 @@ export function DashboardPage() {
     const navigate = useNavigate();
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8"
+        >
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                 <div>
-                    <h1 className="text-2xl font-semibold tracking-tight">Dashboard Overview</h1>
-                    <p className="text-sm text-gray-500">Live operational status of your fleet.</p>
+                    <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Dashboard Overview</h1>
+                    <p className="text-sm text-gray-500 mt-1">Live operational status of your fleet.</p>
                 </div>
-                <div className="flex gap-2">
-                    <Button variant="outline" onClick={() => navigate('/vehicles')}>New Vehicle</Button>
-                    <Button onClick={() => navigate('/trips')}>New Trip</Button>
+                <div className="flex gap-4">
+                    <Button variant="outline" className="rounded-lg h-10 px-4 font-medium focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 border-gray-200 hover:bg-gray-50" onClick={() => navigate('/vehicles')}>New Vehicle</Button>
+                    <Button className="rounded-lg h-10 px-4 font-medium bg-black text-white hover:bg-gray-900 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 transition-all" onClick={() => navigate('/trips')}>New Trip</Button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {KPI_DATA.map((kpi, idx) => (
-                    <Card key={idx}>
+                    <Card key={idx} className="border-gray-200 shadow-sm rounded-xl hover:shadow-md transition-all duration-200 hover:scale-[1.01] bg-white cursor-default">
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm font-medium text-gray-500">{kpi.title}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{kpi.value}</div>
+                            <div className="text-3xl font-bold tracking-tight text-gray-900">{kpi.value}</div>
                         </CardContent>
                     </Card>
                 ))}
             </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Recent Trips</CardTitle>
+            <Card className="border-gray-200 shadow-sm rounded-xl overflow-hidden mt-6">
+                <CardHeader className="border-b border-gray-100 bg-white">
+                    <CardTitle className="text-lg font-semibold tracking-tight text-gray-900">Recent Trips</CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Trip ID</TableHead>
-                                <TableHead>Vehicle</TableHead>
-                                <TableHead>Driver</TableHead>
-                                <TableHead>Status</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {RECENT_TRIPS.map((trip) => (
-                                <TableRow key={trip.trip}>
-                                    <TableCell className="font-medium">{trip.trip}</TableCell>
-                                    <TableCell>{trip.vehicle}</TableCell>
-                                    <TableCell>{trip.driver}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={trip.status === "On Trip" ? "success" : "secondary"}>
-                                            {trip.status}
-                                        </Badge>
-                                    </TableCell>
+                <CardContent className="p-0">
+                    <div className="overflow-x-auto">
+                        <Table>
+                            <TableHeader className="bg-gray-50">
+                                <TableRow className="border-b border-gray-200 hover:bg-transparent">
+                                    <TableHead className="font-medium text-gray-600">Trip ID</TableHead>
+                                    <TableHead className="font-medium text-gray-600">Vehicle</TableHead>
+                                    <TableHead className="font-medium text-gray-600">Driver</TableHead>
+                                    <TableHead className="font-medium text-gray-600">Status</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {RECENT_TRIPS.map((trip) => (
+                                    <TableRow key={trip.trip} className="border-b border-gray-100 hover:bg-gray-50 transition-colors group">
+                                        <TableCell className="font-medium text-gray-900">{trip.trip}</TableCell>
+                                        <TableCell className="text-gray-600">{trip.vehicle}</TableCell>
+                                        <TableCell className="text-gray-600">{trip.driver}</TableCell>
+                                        <TableCell>
+                                            <Badge
+                                                variant="outline"
+                                                className={
+                                                    trip.status === "On Trip"
+                                                        ? "bg-green-100 text-green-700 border-none font-medium hover:bg-green-100 shadow-none px-2.5 py-0.5"
+                                                        : "bg-gray-100 text-gray-700 border-none font-medium hover:bg-gray-100 shadow-none px-2.5 py-0.5"
+                                                }
+                                            >
+                                                {trip.status}
+                                            </Badge>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </CardContent>
             </Card>
-        </div>
+        </motion.div>
     );
 }
