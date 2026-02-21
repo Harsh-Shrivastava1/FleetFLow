@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 
 const navItems = [
+<<<<<<< Updated upstream
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Vehicle Registry', path: '/vehicles', icon: Car },
     { name: 'Trip Dispatcher', path: '/trips', icon: MapPin },
@@ -20,6 +21,15 @@ const navItems = [
     { name: 'Trip & Expense', path: '#expenses', icon: Receipt },
     { name: 'Performance', path: '#performance', icon: TrendingUp },
     { name: 'Analytics', path: '#analytics', icon: PieChart },
+=======
+    { name: 'Dashboard', path: '/dashboard' },
+    { name: 'Vehicle Registry', path: '/vehicles' },
+    { name: 'Trip Dispatcher', path: '/trips' },
+    { name: 'Maintenance', path: '/maintenance' },
+    { name: 'Trip & Expense', path: '/expenses' },
+    { name: 'Performance', path: '/drivers' },
+    { name: 'Analytics', path: '/analytics' },
+>>>>>>> Stashed changes
 ];
 
 export function Sidebar() {
@@ -67,10 +77,16 @@ export function Sidebar() {
                         <NavLink
                             key={item.name}
                             to={item.path}
+<<<<<<< Updated upstream
                             onClick={handleLinkClick}
                             className={`flex items-center px-2.5 py-2 text-sm font-medium rounded-md transition-colors ${isActive
                                     ? 'bg-gray-100 text-black font-semibold'
                                     : 'text-gray-600 hover:bg-gray-50 hover:text-black'
+=======
+                            className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive
+                                ? 'bg-gray-100 text-black font-semibold'
+                                : 'text-gray-600 hover:bg-gray-50 hover:text-black'
+>>>>>>> Stashed changes
                                 }`}
                             title={isCollapsed && !isHovered ? item.name : undefined}
                         >

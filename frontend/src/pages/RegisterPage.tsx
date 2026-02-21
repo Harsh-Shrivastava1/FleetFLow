@@ -37,7 +37,7 @@ export function RegisterPage() {
                     <p className="text-sm text-gray-500 mt-2">Set up your profile for unified fleet access.</p>
                 </div>
 
-                <Card className="border-gray-200 shadow-sm rounded-2xl">
+                <Card className="border-gray-200 shadow-sm rounded-lg">
                     <CardContent className="p-8 pt-8">
                         <form onSubmit={handleRegister} className="space-y-6">
                             <div className="space-y-2">

@@ -113,7 +113,7 @@ export function VehicleRegistryPage() {
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Type</label>
                                 <select
-                                    className="flex h-9 w-full rounded-md border border-gray-200 bg-white px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+                                    className="flex h-9 w-full rounded-md border border-gray-200 bg-white px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                                     value={type} onChange={e => setType(e.target.value)}
                                 >
                                     <option value="Truck">Truck</option>

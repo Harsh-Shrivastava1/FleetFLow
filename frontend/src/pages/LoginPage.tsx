@@ -51,7 +51,7 @@ export function LoginPage() {
                     <p className="text-sm text-gray-500 mt-2">Sign in to your fleet command center.</p>
                 </div>
 
-                <Card className="border-gray-200 shadow-sm rounded-2xl">
+                <Card className="border-gray-200 shadow-sm rounded-lg">
                     <CardContent className="p-8 pt-8">
                         <form onSubmit={handleLogin} className="space-y-6">
                             <div className="space-y-2">

@@ -40,7 +40,7 @@ export function DashboardPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {KPI_DATA.map((kpi, idx) => (
-                    <Card key={idx} className="border-gray-200 shadow-sm rounded-xl hover:shadow-md transition-all duration-200 hover:scale-[1.01] bg-white cursor-default">
+                    <Card key={idx} className="border-gray-200 shadow-sm rounded-lg hover:shadow-md transition-all duration-200 hover:scale-[1.01] bg-white cursor-default">
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm font-medium text-gray-500">{kpi.title}</CardTitle>
                         </CardHeader>
@@ -51,7 +51,7 @@ export function DashboardPage() {
                 ))}
             </div>
 
-            <Card className="border-gray-200 shadow-sm rounded-xl overflow-hidden mt-6">
+            <Card className="border-gray-200 shadow-sm rounded-lg overflow-hidden mt-6">
                 <CardHeader className="border-b border-gray-100 bg-white">
                     <CardTitle className="text-lg font-semibold tracking-tight text-gray-900">Recent Trips</CardTitle>
                 </CardHeader>
