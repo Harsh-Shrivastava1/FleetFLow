@@ -45,9 +45,6 @@ export function Sidebar() {
         >
             <div className="h-16 flex items-center px-4 border-b border-gray-100 justify-between">
                 <div className={`flex items-center gap-3 overflow-hidden ${isExpanded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}>
-                    <div className="w-8 h-8 bg-black rounded flex items-center justify-center shrink-0">
-                        <span className="text-white font-bold text-sm">F</span>
-                    </div>
                     <h2 className="text-xl font-semibold tracking-tight whitespace-nowrap">FleetFlow</h2>
                 </div>
 
@@ -69,8 +66,8 @@ export function Sidebar() {
                             to={item.path}
                             onClick={handleLinkClick}
                             className={`flex items-center px-2.5 py-2 text-sm font-medium rounded-md transition-colors ${isActive
-                                    ? 'bg-gray-100 text-black font-semibold'
-                                    : 'text-gray-600 hover:bg-gray-50 hover:text-black'
+                                ? 'bg-gray-100 text-black font-semibold'
+                                : 'text-gray-600 hover:bg-gray-50 hover:text-black'
                                 }`}
                             title={isCollapsed && !isHovered ? item.name : undefined}
                         >
